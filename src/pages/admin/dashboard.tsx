@@ -245,7 +245,7 @@ function Dashboard(props:PropsWithChildren) {
                     <div className="flex px-5 py-3 text-gray-700  rounded-lg bg-gray-50 dark:bg-[#1E293B] "
                          aria-label="Breadcrumb">
                         {props.children}
-                        <button onClick={ download }>Download CSV</button>
+                        <button onClick={download}>Download CSV</button>
                     </div>
                 </div>
             </div>
