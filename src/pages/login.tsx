@@ -10,7 +10,7 @@ type LoginFormData = {
 }
 
 function Login() {
-    const {register, handleSubmit, formState: {errors}} = useForm<LoginFormData>();
+    const { register, handleSubmit, formState: {errors} } = useForm<LoginFormData>();
     const router = useRouter();
     const onSubmit = async (data: LoginFormData) => {
         await axios
