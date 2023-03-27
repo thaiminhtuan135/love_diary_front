@@ -17,7 +17,7 @@ function Login() {
             .post("http://localhost:8080/api/v1/auth/authenticate", data)
             .then((res) => {
                 // console.log(res.data)
-                const payload = res.data.token.split(".")[1];
+                const payload = res.data.token.split(".")[ 1 ];
                 const userInfo = JSON.parse(atob(payload));
                 User.responseAfterLogin(res.data.token, userInfo.username);
                 if (User.hasToken()) {
