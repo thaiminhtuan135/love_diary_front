@@ -1,7 +1,7 @@
 import React from "react";
 import {useForm} from "react-hook-form";
 import axios from "axios";
-import User from "./auth/User"
+import User from "./auth/User";
 import {useRouter} from "next/router";
 
 type LoginFormData = {
@@ -26,7 +26,6 @@ function Login() {
                 // console.log(userInfo.username);
             }).catch(() => {
         });
-        console.log(data);
     };
 
     return (
