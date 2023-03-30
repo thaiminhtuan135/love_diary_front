@@ -245,8 +245,16 @@ function Dashboard(props:PropsWithChildren) {
                     <div className="flex px-5 py-3 text-gray-700  rounded-lg bg-gray-50 dark:bg-[#1E293B] "
                          aria-label="Breadcrumb">
                         {props.children}
-                        <button onClick={download}>Download CSV</button>
+                        {/*<button onClick={download}>Download CSV</button>*/}
+
                     </div>
+                    <div className={'relative w-[200px] h-[200px] ml-6 bg-green-700'}>
+                        <button className={'z-30 top-0 right-[5px] absolute bg-red-600 w-3.5 h-5'}></button>
+                        <div className={'z-20 absolute'}>ssssssssssssss ssssssssssssss</div>
+                        {/*<div className={'absolute'}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus, accusantium amet blanditiis delectus explicabo facere id impedit ipsam iure maxime nihil, odio perferendis praesentium quis quod sapiente voluptates voluptatibus?</div>*/}
+
+                    </div>
+                    {/*<button>tuan</button>*/}
                 </div>
             </div>
         </>
