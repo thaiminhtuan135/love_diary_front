@@ -3,6 +3,7 @@ import {useForm} from "react-hook-form";
 import axios from "axios";
 import User from "./auth/User";
 import {useRouter} from "next/router";
+import Image from "next/image";
 
 type LoginFormData = {
     email: string;
@@ -36,7 +37,7 @@ function Login() {
                         <div
                             className="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
                             <div className="hidden lg:block  bg-cover">
-                                <img
+                                <Image
                                     src="/img/hinh-anh-ve-tinh-yeu (1).jpg"
                                     alt=""/>
                             </div>

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 function Register() {
     return(
         <>
@@ -6,7 +8,7 @@ function Register() {
                 <div className="flex justify-center px-6 my-12">
                     <div className="w-full xl:w-3/4 lg:w-11/12 flex">
                         <div className="w-full h-full hidden lg:block lg:w-5/12">
-                            <img src="https://source.unsplash.com/Mv9hjnEUHR4/600x800" alt=""/>
+                            <Image src="https://source.unsplash.com/Mv9hjnEUHR4/600x800" alt=""/>
                         </div>
                         <div className="w-full lg:w-7/12 h-[89.5%] bg-white p-5 rounded-lg lg:rounded-l-none">
                             <h3 className="pt-4 text-2xl text-center">Create an Account!</h3>
