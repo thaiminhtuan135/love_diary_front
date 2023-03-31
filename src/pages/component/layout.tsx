@@ -13,3 +13,5 @@ export function Layout(props:PropsWithChildren){
         </>
     )
 }
+
+export default Layout;

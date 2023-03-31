@@ -1,8 +1,9 @@
 import React from "react";
 import {useForm} from "react-hook-form";
 import axios from "axios";
-import User from "./auth/User";
+import {User} from "@/auth/User";
 import {useRouter} from "next/router";
+import Image from "next/image";
 
 type LoginFormData = {
     email: string;
@@ -10,6 +11,7 @@ type LoginFormData = {
 }
 
 function Login() {
+    const {responseAfterLogin ,hasToken} = User();
     const { register, handleSubmit, formState: {errors} } = useForm<LoginFormData>();
     const router = useRouter();
     const onSubmit = async (data: LoginFormData) => {
@@ -17,16 +19,15 @@ function Login() {
             .post("http://localhost:8080/api/v1/auth/authenticate", data)
             .then((res) => {
                 // console.log(res.data)
-                const payload = res.data.token.split(".")[1];
+                const payload = res.data.token.split(".")[ 1 ];
                 const userInfo = JSON.parse(atob(payload));
-                User.responseAfterLogin(res.data.token, userInfo.username);
-                if (User.hasToken()) {
+                responseAfterLogin(res.data.token, userInfo.username);
+                if (hasToken()) {
                     router.push("/admin/dashboard")
                 }
                 // console.log(userInfo.username);
             }).catch(() => {
-        });
-        console.log(data);
+            });
     };
 
     return (
@@ -37,9 +38,9 @@ function Login() {
                         <div
                             className="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
                             <div className="hidden lg:block  bg-cover">
-                                <img
+                                <Image
                                     src="/img/hinh-anh-ve-tinh-yeu (1).jpg"
-                                    alt=""/>
+                                    alt="" width={500} height={500} />
                             </div>
                         </div>
                     </div>

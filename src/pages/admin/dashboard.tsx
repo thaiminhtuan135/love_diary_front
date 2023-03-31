@@ -1,27 +1,28 @@
-import {PropsWithChildren, RefObject, useEffect, useRef} from "react";
-import axios, {head} from "axios";
-
+import {PropsWithChildren, RefObject, useRef, useState} from "react";
+import axios from "axios";
+import Image from "next/image";
+import {Button,DatePicker,message} from "antd";
 function Dashboard(props:PropsWithChildren) {
     const sidebarRef: RefObject<HTMLElement> = useRef(null);
-    const maxSidebarRef: RefObject<HTMLElement> = useRef(null);
-    const miniSidebarRef: RefObject<HTMLElement> = useRef(null);
-    const roundoutRef: RefObject<HTMLElement> = useRef(null);
-    const maxToolbarRef: RefObject<HTMLElement> = useRef(null);
-    const logoRef: RefObject<HTMLElement> = useRef(null);
-    const contentRef: RefObject<HTMLElement> = useRef(null);
-    const moonRef: RefObject<HTMLElement> = useRef(null);
-    const sunRef: RefObject<HTMLElement> = useRef(null);
-    useEffect(() => {
-        sidebarRef.current = document.querySelector("aside");
-        maxSidebarRef.current = document.querySelector(".max");
-        miniSidebarRef.current = document.querySelector(".mini");
-        roundoutRef.current = document.querySelector(".roundout");
-        maxToolbarRef.current = document.querySelector(".max-toolbar");
-        logoRef.current = document.querySelector('.logo');
-        contentRef.current = document.querySelector('.content');
-        moonRef.current = document.querySelector(".moon");
-        sunRef.current = document.querySelector(".sun");
-    }, []);
+    const maxSidebarRef: RefObject<HTMLDivElement> = useRef(null);
+    const miniSidebarRef: RefObject<HTMLDivElement> = useRef(null);
+    // const roundoutRef: RefObject<HTMLElement> = useRef(null);
+    const maxToolbarRef: RefObject<HTMLDivElement> = useRef(null);
+    const logoRef: RefObject<HTMLDivElement> = useRef(null);
+    const contentRef: RefObject<HTMLDivElement> = useRef(null);
+    const moonRef: RefObject<HTMLDivElement> = useRef(null);
+    const sunRef: RefObject<HTMLDivElement> = useRef(null);
+    // useEffect(() => {
+    //     sidebarRef.current = document.querySelector("aside");
+    //     maxSidebarRef.current = document.querySelector(".max");
+    //     miniSidebarRef.current = document.querySelector(".mini");
+    //     roundoutRef.current = document.querySelector(".roundout");
+    //     maxToolbarRef.current = document.querySelector(".max-toolbar");
+    //     logoRef.current = document.querySelector('.logo');
+    //     contentRef.current = document.querySelector('.content');
+    //     moonRef.current = document.querySelector(".moon");
+    //     sunRef.current = document.querySelector(".sun");
+    // }, []);
 
     function setDark(val: string) {
         if (val === "dark") {
@@ -51,23 +52,19 @@ function Dashboard(props:PropsWithChildren) {
     //         }).catch(() => {
     //     });
     // }, []);
-    const download = () => {
-        axios
-            ({
-                url :'http://localhost:8080/api/v1/auth/student/export',
-                method : 'GET',
-                responseType: 'blob'
-            })
+    const [url, setUrl] = useState<string>();
+    const download = async () => {
+        await axios
+        ({
+            url :'http://localhost:8080/api/v1/auth/student/export',
+            method : 'GET',
+            responseType: 'blob'
+        })
             .then((response ) => {
-                const url = window.URL.createObjectURL(new Blob([response.data]));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', 'data.csv');
-                document.body.appendChild(link);
-                link.click();
-                link.parentNode.removeChild(link);
+                const url = URL.createObjectURL(new Blob([response.data]));
+                setUrl(url);
             }).catch(() => {
-        });
+            });
     }
 
     function openNav() {
@@ -99,6 +96,13 @@ function Dashboard(props:PropsWithChildren) {
             contentRef.current?.classList.add("ml-12");
         }
     }
+    // const [date, setDate] = useState(null);
+    // const handleChange = (value:any) => {
+    //     console.log(value);
+    //     message.success(`Select Date: ${value ? value.format('DD-MM-YYYY') : 'None'}`);
+    //     setDate(value);
+    // };
+
 
     return (
         <>
@@ -106,7 +110,7 @@ function Dashboard(props:PropsWithChildren) {
                 <div
                     className="fixed w-full z-30 flex bg-white dark:bg-[#0F172A] p-2 items-center justify-center h-16 px-10">
                     <div
-                        className="logo ml-12 dark:text-white  transform ease-in-out duration-500 flex-none h-full flex items-center justify-center">
+                        className="logo ml-12 dark:text-white  transform ease-in-out duration-500 flex-none h-full flex items-center justify-center" ref={logoRef}>
                         NERVE
                     </div>
                     {/*SPACER*/}
@@ -115,9 +119,9 @@ function Dashboard(props:PropsWithChildren) {
                         <div className="flex space-x-3 items-center px-3">
                             <div className="flex-none flex justify-center">
                                 <div className="w-8 h-8 flex ">
-                                    <img
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShta_GXR2xdnsxSzj_GTcJHcNykjVKrCBrZ9qouUl0usuJWG2Rpr_PbTDu3sA9auNUH64&usqp=CAU"
-                                        alt="profile" className="shadow rounded-full object-cover"/>
+                                    {/*<img*/}
+                                    {/*    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShta_GXR2xdnsxSzj_GTcJHcNykjVKrCBrZ9qouUl0usuJWG2Rpr_PbTDu3sA9auNUH64&usqp=CAU"*/}
+                                    {/*    alt="profile" className="shadow rounded-full object-cover"/>*/}
                                 </div>
                             </div>
                             <div className="hidden md:block text-sm md:text-md text-black dark:text-white">Charlie Tuấn
@@ -127,15 +131,15 @@ function Dashboard(props:PropsWithChildren) {
                     </div>
                 </div>
                 <aside
-                    className="w-60 -translate-x-48 fixed transition transform ease-in-out duration-1000 z-50 flex h-screen bg-[#1E293B] ">
+                    className="w-60 -translate-x-48 fixed transition transform ease-in-out duration-1000 z-50 flex h-screen bg-[#1E293B] " ref={sidebarRef}>
                     {/*open sidebar button */}
                     <div
-                        className="max-toolbar translate-x-24 scale-x-0 w-full -right-6 transition transform ease-in duration-300 flex items-center justify-between border-4 border-white dark:border-[#0F172A] bg-[#1E293B]  absolute top-2 rounded-full h-12">
+                        className="max-toolbar translate-x-24 scale-x-0 w-full -right-6 transition transform ease-in duration-300 flex items-center justify-between border-4 border-white dark:border-[#0F172A] bg-[#1E293B]  absolute top-2 rounded-full h-12" ref={maxToolbarRef}>
 
                         <div className="flex pl-4 items-center space-x-2 ">
                             <div>
                                 <div onClick={() => setDark('dark')}
-                                     className="moon text-white hover:text-blue-500 dark:hover:text-[#38BDF8]">
+                                     className="moon text-white hover:text-blue-500 dark:hover:text-[#38BDF8]" ref={moonRef}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          strokeWidth={3} stroke="currentColor" className="w-4 h-4">
                                         <path strokeLinecap="round" strokeLinejoin="round"
@@ -143,7 +147,7 @@ function Dashboard(props:PropsWithChildren) {
                                     </svg>
                                 </div>
                                 <div onClick={() => setDark('light')}
-                                     className="sun hidden text-white hover:text-blue-500 dark:hover:text-[#38BDF8]">
+                                     className="sun hidden text-white hover:text-blue-500 dark:hover:text-[#38BDF8]" ref={sunRef}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" className="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -168,11 +172,11 @@ function Dashboard(props:PropsWithChildren) {
                     </div>
                     <div onClick={openNav}
                          className="-right-6 transition transform ease-in-out duration-500 flex border-4 border-white dark:border-[#0F172A] bg-[#1E293B] dark:hover:bg-blue-500 hover:bg-purple-500 absolute top-2 p-3 rounded-full text-white hover:rotate-45">
-                        <img src="/img/heart-attack.png" alt=""/>
+                        <Image src="/img/heart-attack.png" alt="" width={24} height={24}/>
 
                     </div>
                     {/*<!-- MAX SIDEBAR*/}
-                    <div className="max hidden text-white mt-20 flex-col space-y-2 w-full h-[calc(100vh)]">
+                    <div className="max hidden text-white mt-20 flex-col space-y-2 w-full h-[calc(100vh)]" ref={maxSidebarRef}>
                         <div
                             className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
@@ -210,7 +214,7 @@ function Dashboard(props:PropsWithChildren) {
                         </div>
                     </div>
                     {/*<!-- MINI SIDEBAR*/}
-                    <div className="mini mt-20 flex flex-col space-y-2 w-full h-[calc(100vh)]">
+                    <div className="mini mt-20 flex flex-col space-y-2 w-full h-[calc(100vh)]" ref={miniSidebarRef}>
                         <div
                             className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
@@ -241,12 +245,17 @@ function Dashboard(props:PropsWithChildren) {
 
                 </aside>
                 {/*CONTENT -->*/}
-                <div className="content ml-12 transform ease-in-out duration-500 pt-20 px-2 md:px-5 pb-4 ">
+                <div ref={contentRef} className="content ml-12 transform ease-in-out duration-500 pt-20 px-2 md:px-5 pb-4 ">
                     <div className="flex px-5 py-3 text-gray-700  rounded-lg bg-gray-50 dark:bg-[#1E293B] "
                          aria-label="Breadcrumb">
                         {props.children}
-                        <button onClick={download}>Download CSV</button>
+                        {/*<button onClick={download}>Download CSV</button>*/}
+                        <a onClick={download} href={url} download={'data.csv'}>click anh di</a>
+                        <Button type={"dashed"} className={'text-black'}>dsd</Button>
+                        {/*<DatePicker onChange={handleChange} />*/}
                     </div>
+
+
                 </div>
             </div>
         </>
