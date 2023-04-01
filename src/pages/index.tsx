@@ -31,7 +31,7 @@ function Home() {
     const [user, setUser] = useState<User>(
         {firstname : "tuan" , lastname : "minh" ,email: "lalalalalalla@gmail.com" , password : "123456"}
     );
-    useEffect(() => {
+    // useEffect(() => {
         //  axios
         //     .post(url, user)
         //     .then((res) => {
@@ -48,22 +48,28 @@ function Home() {
         //
         //     }).catch(() => {
         // });
-    }, []);
+    // }, []);
 
     return (
         <>
-            <div className={"font-bold"}>tuan</div>
-            <div>dsadsa</div>
+            <div style={{backgroundImage : "url('/img/pngtree-red-love-balloon-thanksgiving-background-material-backgroundthanksgivingthanksgiving-boardadvertising-backgroundthanksgiving-image_70510.jpg')"}} className={'w-full h-full bg-cover'}>
+                <div className={'text-center mb-[50%]'}>
+                    <div className={'text-5xl text-teal-900'}>Welcome to love diary</div>
+                </div>
+                <div className={'opacity-0'}>d</div>
+            </div>
+            {/*<div className={"font-bold"}>tuan</div>*/}
+            {/*<div>dsadsa</div>*/}
         </>
     )
 }
 
-Home.getLayout = function getLayout(page: ReactElement) {
-    return (
-        <Layout>
-            {page}
-        </Layout>
-    )
-}
+// Home.getLayout = function getLayout(page: ReactElement) {
+//     return (
+//         <Layout>
+//             {page}
+//         </Layout>
+//     )
+// }
 
 export default Home
