@@ -2,6 +2,7 @@ import {PropsWithChildren, RefObject, useRef, useState} from "react";
 import axios from "axios";
 import Image from "next/image";
 
+import {Button,DatePicker,message} from "antd";
 function Dashboard(props:PropsWithChildren) {
     const sidebarRef: RefObject<HTMLElement> = useRef(null);
     const maxSidebarRef: RefObject<HTMLDivElement> = useRef(null);
@@ -55,16 +56,16 @@ function Dashboard(props:PropsWithChildren) {
     const [url, setUrl] = useState<string>();
     const download = async () => {
         await axios
-            ({
-                url :'http://localhost:8080/api/v1/auth/student/export',
-                method : 'GET',
-                responseType: 'blob'
-            })
+        ({
+            url :'http://localhost:8080/api/v1/auth/student/export',
+            method : 'GET',
+            responseType: 'blob'
+        })
             .then((response ) => {
                 const url = URL.createObjectURL(new Blob([response.data]));
                 setUrl(url);
             }).catch(() => {
-        });
+            });
     }
 
     function openNav() {
@@ -96,6 +97,13 @@ function Dashboard(props:PropsWithChildren) {
             contentRef.current?.classList.add("ml-12");
         }
     }
+    // const [date, setDate] = useState(null);
+    // const handleChange = (value:any) => {
+    //     console.log(value);
+    //     message.success(`Select Date: ${value ? value.format('DD-MM-YYYY') : 'None'}`);
+    //     setDate(value);
+    // };
+
 
 
     return (
@@ -243,11 +251,12 @@ function Dashboard(props:PropsWithChildren) {
                     <div className="flex px-5 py-3 text-gray-700  rounded-lg bg-gray-50 dark:bg-[#1E293B] "
                          aria-label="Breadcrumb">
                         {props.children}
-                        <button onClick={download}>Download CSV</button>
+
+                        {/*<button onClick={download}>Download CSV</button>*/}
                         <a onClick={download} href={url} download={'data.csv'}>click anh di</a>
+                        <Button type={"dashed"} className={'text-black'}>dsd</Button>
+                        {/*<DatePicker onChange={handleChange} />*/}
                     </div>
-
-
                 </div>
             </div>
         </>
