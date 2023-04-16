@@ -8,14 +8,14 @@ function Register() {
                 <div className="flex justify-center px-6 my-12">
                     <div className="w-full xl:w-3/4 lg:w-11/12 flex">
                         <div className="w-full h-full hidden lg:block lg:w-5/12">
-                            <Image src="https://source.unsplash.com/Mv9hjnEUHR4/600x800" alt=""/>
+                            <Image src="/img/hinh-nen-tinh-yeu-full-hd-cho-dien-thoai.jpg" width={500} height={600} alt=""/>
                         </div>
                         <div className="w-full lg:w-7/12 h-[89.5%] bg-white p-5 rounded-lg lg:rounded-l-none">
                             <h3 className="pt-4 text-2xl text-center">Create an Account!</h3>
                             <form className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
                                 <div className="mb-4 md:flex md:justify-between">
                                     <div className="mb-4 md:mr-2 md:mb-0">
-                                        <label className="block mb-2 text-sm font-bold text-gray-700" for="firstName">
+                                        <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="firstName">
                                             First Name
                                         </label>
                                         <input
@@ -26,7 +26,7 @@ function Register() {
                                         />
                                     </div>
                                     <div className="md:ml-2">
-                                        <label className="block mb-2 text-sm font-bold text-gray-700" for="lastName">
+                                        <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="lastName">
                                             Last Name
                                         </label>
                                         <input
@@ -38,7 +38,7 @@ function Register() {
                                     </div>
                                 </div>
                                 <div className="mb-4">
-                                    <label className="block mb-2 text-sm font-bold text-gray-700" for="email">
+                                    <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
                                         Email
                                     </label>
                                     <input
@@ -50,7 +50,7 @@ function Register() {
                                 </div>
                                 <div className="mb-4 md:flex md:justify-between">
                                     <div className="mb-4 md:mr-2 md:mb-0">
-                                        <label className="block mb-2 text-sm font-bold text-gray-700" for="password">
+                                        <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="password">
                                             Password
                                         </label>
                                         <input
@@ -62,7 +62,7 @@ function Register() {
                                         <p className="text-xs italic text-red-500">Please choose a password.</p>
                                     </div>
                                     <div className="md:ml-2">
-                                        <label className="block mb-2 text-sm font-bold text-gray-700" for="c_password">
+                                        <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="c_password">
                                             Confirm Password
                                         </label>
                                         <input

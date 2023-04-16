@@ -1,10 +1,9 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '@/styles/Home.module.css'
 import {ReactElement, useEffect, useState} from 'react'
 import axios from "axios";
 import {Layout} from './component/layout';
-import Token from './auth/Token';
+
 interface Authenticate{
     email: String;
     password: String;
@@ -19,11 +18,11 @@ interface User{
 
 const url = "http://localhost:8080/api/v1/auth/register";
 function Home() {
-    const payload = (token) => {
+    const payload = (token:any) => {
         const payload = token.split(".")[1];
         return decode(payload);
     }
-    const decode = (payload) => {
+    const decode = (payload:any) => {
         return JSON.parse(atob(payload));
     }
     const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsYWxhbGFsYWxhbGxhQGdtYWlsLmNvbSIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJVU0VSIn1dLCJpYXQiOjE2Nzk2MzMwMjQsImV4cCI6MTY3OTYzNDQ2NH0.PWQjYAqbtNvLqS5JkyTE1IIoyr8cj-MYAx6fAqb_b_k";

@@ -113,9 +113,9 @@ function Dashboard(props:PropsWithChildren) {
                         <div className="flex space-x-3 items-center px-3">
                             <div className="flex-none flex justify-center">
                                 <div className="w-8 h-8 flex ">
-                                    <img
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShta_GXR2xdnsxSzj_GTcJHcNykjVKrCBrZ9qouUl0usuJWG2Rpr_PbTDu3sA9auNUH64&usqp=CAU"
-                                        alt="profile" className="shadow rounded-full object-cover"/>
+                                    {/*<img*/}
+                                    {/*    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShta_GXR2xdnsxSzj_GTcJHcNykjVKrCBrZ9qouUl0usuJWG2Rpr_PbTDu3sA9auNUH64&usqp=CAU"*/}
+                                    {/*    alt="profile" className="shadow rounded-full object-cover"/>*/}
                                 </div>
                             </div>
                             <div className="hidden md:block text-sm md:text-md text-black dark:text-white">Charlie Tuấn

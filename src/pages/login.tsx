@@ -1,7 +1,7 @@
 import React from "react";
 import {useForm} from "react-hook-form";
 import axios from "axios";
-import User from "./auth/User";
+import {User} from "@/auth/User";
 import {useRouter} from "next/router";
 import Image from "next/image";
 
@@ -11,6 +11,7 @@ type LoginFormData = {
 }
 
 function Login() {
+    const {responseAfterLogin ,hasToken} = User();
     const { register, handleSubmit, formState: {errors} } = useForm<LoginFormData>();
     const router = useRouter();
     const onSubmit = async (data: LoginFormData) => {
@@ -20,8 +21,8 @@ function Login() {
                 // console.log(res.data)
                 const payload = res.data.token.split(".")[ 1 ];
                 const userInfo = JSON.parse(atob(payload));
-                User.responseAfterLogin(res.data.token, userInfo.username);
-                if (User.hasToken()) {
+                responseAfterLogin(res.data.token, userInfo.username);
+                if (hasToken()) {
                     router.push("/admin/dashboard")
                 }
                 // console.log(userInfo.username);
@@ -39,7 +40,7 @@ function Login() {
                             <div className="hidden lg:block  bg-cover">
                                 <Image
                                     src="/img/hinh-anh-ve-tinh-yeu (1).jpg"
-                                    alt=""/>
+                                    alt="" width={500} height={500} />
                             </div>
                         </div>
                     </div>
