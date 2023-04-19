@@ -1,13 +1,12 @@
 import {useRouter} from "next/router";
 import React, {ReactElement, useEffect} from "react";
-import Dashboard from "@/pages/admin/dashboard";
-import CreateCourse from "@/pages/admin/course/create";
 import Link from "next/link";
 import {Breadcrumb, Form} from "antd";
 import InputCustom from "@/component/InputCustom";
 import ButtonSubmit from "@/component/button/ButtonSubmit";
 import LinkCustom from "@/component/LinkCustom";
 import {faker} from "@faker-js/faker";
+import Admin from "@/component/layout/Admin";
 
 interface typeCourse {
     id: number;
@@ -97,7 +96,7 @@ function TypeCourseDetail() {
 };
 
 TypeCourseDetail.getLayout = function getlayout(page: ReactElement) {
-    return <Dashboard>{page}</Dashboard>
+    return <Admin>{page}</Admin>
 }
 
 export default TypeCourseDetail;

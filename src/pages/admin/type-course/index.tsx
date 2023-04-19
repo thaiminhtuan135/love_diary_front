@@ -1,10 +1,12 @@
 import {NextPageWithLayout} from "@/pages/_app";
 import {ReactElement, useEffect, useState} from "react";
-import Dashboard from "@/pages/admin/dashboard";
 import {faker} from "@faker-js/faker";
-import {Col, message, Popconfirm, Row, Table} from "antd";
+import {Card, message, Row, Space, Table} from "antd";
 import LinkCustom from "@/component/LinkCustom";
 import {useRouter} from "next/router";
+import ButtonEdit from "@/component/button/ButtonEdit";
+import ButtonDelete from "@/component/button/ButtonDelete";
+import Admin from "@/component/layout/Admin";
 
 interface TypeCourse {
     id: number;
@@ -25,11 +27,13 @@ const TypeCourse: NextPageWithLayout = () => {
         }
         setTypeCourses(newData);
     }, []);
+
+
     useEffect(() => {
         console.log(typeCourses, 'sda');
     }, [typeCourses]);
 
-    const confirm = (id : number) => {
+    const confirm = (id: number) => {
         message.success('Clicked on Yes.' + id);
     };
     const router = useRouter();
@@ -42,9 +46,49 @@ const TypeCourse: NextPageWithLayout = () => {
         })
     }
 
+    const handleDelete = (id : number) => {
+        console.log(id)
+        message.success('Clicked on Yes.');
+    };
+
+    const modifiedData = typeCourses.map((item) => ({
+        ...item,
+        key: item.id,
+    }));
+
+    const columns = [
+        {
+            dataIndex: "id",
+            title: "ID",
+            key: "id",
+            align: "center",
+        },
+        {
+            dataIndex: "name",
+            title: "Name",
+            key: "name",
+            align: "center",
+        },
+        {
+            title: "Actions",
+            align: "center",
+            render: (record) => (
+                <>
+                    <Space>
+                        {/*<button onClick={() => handleUpdate(record.id)}>Edit</button>*/}
+                        <ButtonEdit handleUpdate={() => handleUpdate(record.id)}/>
+                        <ButtonDelete handleDelete={() => handleDelete(record.id)} description={"Delete type course"} />
+
+                    </Space>
+                </>
+            )
+        }
+    ]
+
     return (
         <>
-            <div className={' text-[24px] font-bold w-full'}>Type course</div>
+            <Card title={"Type course"} size={"default"}>
+            {/*<div className={' text-[24px] font-bold w-full'}>Type course</div>*/}
             <div>
                 <div className={'mb-2 flex justify-end items-center'}>
                     <LinkCustom
@@ -54,57 +98,26 @@ const TypeCourse: NextPageWithLayout = () => {
                 </div>
             </div>
             <div className={'overflow-scroll bg-white w-full'}>
-                <Row gutter={12}>
-                    <Col span={24}>
-                        <Table
-                            dataSource={typeCourses}
-                            pagination={{
-                                showQuickJumper: true,
-                                defaultPageSize: 10,
-                                showSizeChanger: true,
-                                pageSizeOptions: ['10', '20', '30']
-                            }}
-                            columns={[
-                                {
-                                    dataIndex: "id",
-                                    title: "ID",
-                                    key: "id"
-                                },
-                                {
-                                    dataIndex: "name",
-                                    title: "Name",
-                                    key: "name",
-                                },
-                                {
-                                    title: "Actions",
-                                    render: (record) => (
-                                        <>
-                                            <button onClick={() => handleUpdate(record.id)}>Edit</button>
-                                            <Popconfirm
-                                                placement="topRight"
-                                                title={"Are you want delete ? "}
-                                                description={"Delete course"}
-                                                onConfirm={()=> confirm(record.id)}
-                                                okText="Yes"
-                                                cancelText="No"
-                                            >
-                                                <button>Delete</button>
-                                            </Popconfirm>
-                                        </>
-                                    )
-                                }
-                            ]}
-                        />
-                    </Col>
-                </Row>
+                <Table
+                    dataSource={modifiedData}
+                    pagination={{
+                        showQuickJumper: true,
+                        defaultPageSize: 10,
+                        showSizeChanger: true,
+                        pageSizeOptions: ['10', '20', '30']
+                    }}
+                    columns={columns}
+                    bordered
+                />
             </div>
+            </Card>
         </>
     )
 };
 
 
 TypeCourse.getLayout = function getlayout(page: ReactElement) {
-    return <Dashboard>{page}</Dashboard>
+    return <Admin>{page}</Admin>
 }
 
 export default TypeCourse;

@@ -1,7 +1,5 @@
 import {useRouter} from "next/router";
 import React, {ReactElement, useEffect} from "react";
-import Dashboard from "@/pages/admin/dashboard";
-import CreateCourse from "@/pages/admin/course/create";
 import Link from "next/link";
 import {Breadcrumb, Form, Image, Select} from "antd";
 import InputCustom from "@/component/InputCustom";
@@ -11,8 +9,8 @@ import UploadImage from "@/component/UploadImage";
 import SelectCustom from "@/component/SelectCustom";
 import ButtonSubmit from "@/component/button/ButtonSubmit";
 import LinkCustom from "@/component/LinkCustom";
-import moment from "moment";
 import dayjs from "dayjs";
+import Admin from "@/component/layout/Admin";
 
 type image = String | Blob;
 
@@ -260,7 +258,7 @@ function CourseDetail() {
 };
 
 CourseDetail.getLayout = function getlayout(page: ReactElement) {
-    return <Dashboard>{page}</Dashboard>
+    return <Admin>{page}</Admin>
 }
 
 export default CourseDetail;

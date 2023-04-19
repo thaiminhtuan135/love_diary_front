@@ -1,18 +1,19 @@
 import {NextPageWithLayout} from "@/pages/_app";
-import React, {ReactElement, useEffect} from "react";
-import Dashboard from "@/pages/admin/dashboard";
-import {message, Form, Select, Breadcrumb} from 'antd';
+import React, {ReactElement, useEffect, useState} from "react";
+import {message, Form, Select, Breadcrumb, Upload, Modal} from 'antd';
 import axios from "axios";
-import moment from "moment";
 import ButtonSubmit from "@/component/button/ButtonSubmit";
 import Link from "next/link";
 import LinkCustom from "@/component/LinkCustom";
 import InputCustom from "@/component/InputCustom";
 import InputNumberCustom from "@/component/InputNumberCustom";
 import SelectCustom from "@/component/SelectCustom";
-import UploadImage from "@/component/UploadImage";
 import DatetimePicker from "@/component/DatetimePicker";
 import dayjs from "dayjs";
+import {PlusCircleOutlined} from "@ant-design/icons";
+import {RcFile} from "antd/es/upload";
+import {UploadFile} from "antd/es/upload/interface";
+import Admin from "@/component/layout/Admin";
 
 type image = String | Blob;
 
@@ -28,17 +29,35 @@ type Course = {
     typeCourse: number;
 }
 
+const getBase64 = (file: RcFile): Promise<string> =>
+    new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+    });
+
 const CreateCourse: NextPageWithLayout = () => {
 
-    // const handleChange = (value: any) => {
-    //     console.log(value);
-    //     message.success(`Select Date: ${value ? value.format('DD-MM-YYYY') : 'None'}`);
-    //     setDate(value);
-    // };
     const [form] = Form.useForm();
     const {Option} = Select;
 
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewTitle, setPreviewTitle] = useState('');
 
+    const handleCancel = () => setPreviewOpen(false);
+
+    const handlePreview = async (file: UploadFile) => {
+        console.log(file)
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj as RcFile);
+        }
+
+        setPreviewImage(file.url || (file.preview as string));
+        setPreviewOpen(true);
+        setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
+    };
     useEffect(() => {
         console.log('init')
         form.setFieldsValue({name: 'Hi, man!'});
@@ -218,13 +237,36 @@ const CreateCourse: NextPageWithLayout = () => {
 
                 />
                 {/*Image*/}
-                <UploadImage
-                    name={"image"}
+                {/*<UploadImage*/}
+                {/*    name={"image"}*/}
+                {/*    rules={rules.ruleImage}*/}
+                {/*    label={"Image"}*/}
+                {/*    valuePropName={'fileList'}*/}
+                {/*    maxCount={1}*/}
+                {/*/>*/}
+                <Form.Item
+                    label={"image"} name={"image"}
+                    valuePropName="fileList"
+                    getValueFromEvent={(event) => {
+                        return event?.fileList;
+                    }}
                     rules={rules.ruleImage}
-                    label={"Image"}
-                    valuePropName={'fileList'}
-                    maxCount={1}
-                />
+                >
+                    <Upload
+                        accept="image/png,image/jpeg"
+                        listType="picture-card"
+                        maxCount={1}
+                        onPreview={handlePreview}
+                    >
+                        <div>
+                            <PlusCircleOutlined/>
+                            <div>Upload</div>
+                        </div>
+                    </Upload>
+                </Form.Item>
+                <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                </Modal>
                 {/*type*/}
                 <SelectCustom
                     name={"typeCourse"}
@@ -250,7 +292,7 @@ const CreateCourse: NextPageWithLayout = () => {
 };
 
 CreateCourse.getLayout = function getlayout(page: ReactElement) {
-    return <Dashboard>{page}</Dashboard>
+    return <Admin>{page}</Admin>
 }
 
 export default CreateCourse;

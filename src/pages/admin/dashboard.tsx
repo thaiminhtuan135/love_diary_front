@@ -99,7 +99,7 @@ function Dashboard(props: PropsWithChildren) {
     return (
         <>
             <div className="body bg-white dark:bg-[#0F172A]">
-                <Head forwardedRef={logoRef} title={'abc'}/>
+                <Head forwardedRef={logoRef} title={'LTS_EDU'}/>
                 <Sidebar
                     setDark={setDark}
                     setLight={setLight}

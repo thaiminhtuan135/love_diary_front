@@ -1,6 +1,6 @@
 import {NextPageWithLayout} from "@/pages/_app";
 import {ReactElement} from "react";
-import Dashboard from "@/pages/admin/dashboard";
+import Admin from "@/component/layout/Admin";
 
 const User: NextPageWithLayout = () => {
     return(
@@ -12,7 +12,7 @@ const User: NextPageWithLayout = () => {
 
 
 User.getLayout = function getlayout(page : ReactElement) {
-    return <Dashboard>{page}</Dashboard>
+    return <Admin>{page}</Admin>
 }
 
 export default User;
