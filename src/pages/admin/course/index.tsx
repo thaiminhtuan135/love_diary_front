@@ -2,7 +2,7 @@ import {NextPageWithLayout} from "@/pages/_app";
 import {ReactElement, useEffect, useState} from "react";
 import Dashboard from "@/pages/admin/dashboard";
 import {faker} from "@faker-js/faker";
-import {Col, Popconfirm, Row, Table} from "antd";
+import {Col, Popconfirm, Row, Table ,message} from "antd";
 import LinkCustom from "@/component/LinkCustom";
 import {useRouter} from "next/router";
 
@@ -65,7 +65,6 @@ const Course: NextPageWithLayout = () => {
         <>
             <div className={' text-[24px] font-bold w-full'}>List Course</div>
 
-
             <div className={''}>
                 <div className={'mb-2 flex justify-end items-center'}>
                     <LinkCustom
@@ -74,9 +73,8 @@ const Course: NextPageWithLayout = () => {
                         text={"Create course"}/>
                 </div>
                 <div className={'overflow-scroll bg-white w-full'}>
-                    <Row gutter={12} className={''}>
-
-                        <Col span={24} className={''}>
+                    <Row gutter={12}>
+                        <Col span={24}>
                             <Table
                                 dataSource={courses}
                                 pagination={{

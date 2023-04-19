@@ -1,9 +1,8 @@
 import {NextPageWithLayout} from "@/pages/_app";
 import React, {ReactElement, useEffect} from "react";
 import Dashboard from "@/pages/admin/dashboard";
-import {Input, message, Form, Checkbox, Select, DatePicker, InputNumber, Upload, Breadcrumb} from 'antd';
+import {message, Form, Select, Breadcrumb} from 'antd';
 import axios from "axios";
-import {PlusCircleOutlined} from "@ant-design/icons";
 import moment from "moment";
 import ButtonSubmit from "@/component/button/ButtonSubmit";
 import Link from "next/link";
@@ -13,6 +12,7 @@ import InputNumberCustom from "@/component/InputNumberCustom";
 import SelectCustom from "@/component/SelectCustom";
 import UploadImage from "@/component/UploadImage";
 import DatetimePicker from "@/component/DatetimePicker";
+import dayjs from "dayjs";
 
 type image = String | Blob;
 
@@ -46,8 +46,8 @@ const CreateCourse: NextPageWithLayout = () => {
 
     const onFinish = (data: Course) => {
         // console.log(data)
-        data.time = new Date(data.time);
-        data.time = moment(data.time).format('YYYY-MM-DD');
+        // data.time = new Date(data.time);
+        data.time = dayjs(data.time).format('YYYY-MM-DD');
         console.log(data)
 
     };
@@ -149,7 +149,7 @@ const CreateCourse: NextPageWithLayout = () => {
                     },
                 ]}
             />
-            <div className={'text-[24px] font-bold mb-4'}>Thêm khóa học</div>
+            <div className={'text-[24px] font-bold mb-4'}>Create course</div>
             <Form
                 {...formItemLayout}
                 form={form}
@@ -238,9 +238,10 @@ const CreateCourse: NextPageWithLayout = () => {
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
                     <div className={'mx-auto text-center'}>
                         <ButtonSubmit/>
-                        <LinkCustom href={"/admin/course"}
-                                    className={"text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"}
-                                    text={"Back"}/>
+                        <LinkCustom
+                            href={"/admin/course"}
+                            className={"text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"}
+                            text={"Back"}/>
                     </div>
                 </Form.Item>
             </Form>

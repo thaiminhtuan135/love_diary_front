@@ -5,13 +5,14 @@ type type = 'text' | 'textarea';
 
 interface propData {
     name: string;
-    label: string;
+    label?: string;
     rules?: Array<any>
     className?: string;
-    placeholder: string;
+    placeholder?: string;
     allowClear?: boolean;
     type?: type;
     maxLength?: number;
+
 }
 
 export default function InputCustom(prop: propData) {

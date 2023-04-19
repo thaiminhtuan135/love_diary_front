@@ -2,6 +2,8 @@ import Image from "next/image";
 import {RefObject} from "react";
 import LinkCustom from "@/component/LinkCustom";
 import Link from "next/link";
+import MaxElement from "@/component/sidebar/MaxElement";
+import MinElement from "@/component/sidebar/MinElement";
 
 interface refs {
     setDark: () => void;
@@ -70,46 +72,18 @@ export default function Sidebar(prop: refs) {
                 {/*<!-- MAX SIDEBAR*/}
                 <div className="max hidden text-white mt-20 flex-col space-y-2 w-full h-[calc(100vh)]"
                      ref={prop.maxSidebarRef}>
-                    <div
-                        className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
-                        <Image src="/icon/home.png" width={24} height={24} alt={'home'}/>
-                        <button className="font-[600]">
-                            Home
-                        </button>
-                    </div>
-                    <Link href={"/admin/course"}>
-                        <div
-                            className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
-                            <Image src="/icon/course.png" width={24} height={24} alt={'course'}/>
-                            <button className="font-[600]">
-                                Course
-                            </button>
-                        </div>
-                    </Link>
-                    <div
-                        className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
-                        <Image src="/icon/user.png" width={24} height={24} alt={'user'}/>
-                        <button className="font-[600]">
-                            User
-                        </button>
-                    </div>
+                    <MaxElement href={"#"} src={"/icon/home.png"} alt={"Home"} text={"Home"}/>
+                    <MaxElement href={"/admin/course"} src={"/icon/course.png"} alt={"course"} text={"Course"}/>
+                    <MaxElement href={"/admin/user"} src={"/icon/user.png"} alt={"User"} text={"User"}/>
+                    <MaxElement href={"/admin/type-course"} src={"/icon/type_course.png"} alt={"Type course"} text={"Type course"}/>
                 </div>
                 {/*<!-- MINI SIDEBAR*/}
                 <div className="mini mt-20 flex flex-col space-y-2 w-full h-[calc(100vh)]" ref={prop.miniSidebarRef}>
-                    <div
-                        className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
-                        <Image src="/icon/home.png" width={24} height={24} alt={'home'}/>
-                    </div>
-                    <Link href={"/admin/course"}>
-                        <div
-                            className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
-                            <Image src="/icon/course.png" width={24} height={24} alt={'course'}/>
-                        </div>
-                    </Link>
-                    <div
-                        className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
-                        <Image src="/icon/user.png" width={24} height={24} alt={'user'}/>
-                    </div>
+
+                    <MinElement href={"#"} src={"/icon/home.png"} alt={"Home"}/>
+                    <MinElement href={"/admin/course"} src={"/icon/course.png"} alt={"course"}/>
+                    <MinElement href={"/admin/user"} src={"/icon/user.png"} alt={"user"}/>
+                    <MinElement href={"/admin/type-course"} src={"/icon/type_course.png"} alt={"Type course"}/>
                 </div>
             </aside>
         </>
