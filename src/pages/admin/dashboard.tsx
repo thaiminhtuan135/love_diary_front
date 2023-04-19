@@ -5,8 +5,7 @@ import Head from "@/component/Head";
 import Sidebar from "@/component/Sidebar";
 
 
-
-function Dashboard(props:PropsWithChildren) {
+function Dashboard(props: PropsWithChildren) {
     const sidebarRef: RefObject<HTMLElement> = useRef(null);
     const maxSidebarRef: RefObject<HTMLDivElement> = useRef(null);
     const miniSidebarRef: RefObject<HTMLDivElement> = useRef(null);
@@ -49,11 +48,11 @@ function Dashboard(props:PropsWithChildren) {
     const download = async () => {
         await axios
         ({
-            url :'http://localhost:8080/api/v1/auth/student/export',
-            method : 'GET',
+            url: 'http://localhost:8080/api/v1/auth/student/export',
+            method: 'GET',
             responseType: 'blob'
         })
-            .then((response ) => {
+            .then((response) => {
                 const url = URL.createObjectURL(new Blob([response.data]));
                 setUrl(url);
             }).catch(() => {
@@ -89,14 +88,13 @@ function Dashboard(props:PropsWithChildren) {
             contentRef.current?.classList.add("ml-12");
         }
     }
+
     // const [date, setDate] = useState(null);
     //  const handleChange = (value:any) => {
     //     console.log(value);
     //     message.success(`Select Date: ${value ? value.format('DD-MM-YYYY') : 'None'}`);
     //    setDate(value);
     // };
-
-
 
     return (
         <>
@@ -113,8 +111,10 @@ function Dashboard(props:PropsWithChildren) {
                     maxSidebarRef={maxSidebarRef}
                     miniSidebarRef={miniSidebarRef}/>
                 {/*CONTENT -->*/}
-                <div ref={contentRef} className="relative content ml-12 transform ease-in-out duration-500 pt-20 px-2 pb-4 ">
-                    <div className="px-6 py-3 text-gray-700 rounded-lg bg-gray-50 dark:bg-[#1E293B]" aria-label="Breadcrumb">
+                <div ref={contentRef}
+                     className="relative content ml-12 transform ease-in-out duration-500 pt-20 px-2 pb-4 ">
+                    <div className="px-6 py-3 text-gray-700 rounded-lg bg-gray-50 dark:bg-[#1E293B]"
+                         aria-label="Breadcrumb">
                         {props.children}
                         {/*<div>Add Course</div>*/}
                         {/*<button onClick={download}>Download CSV</button>*/}

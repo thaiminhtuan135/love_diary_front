@@ -16,18 +16,22 @@ interface refs {
 }
 
 // #B09797
-export default function Sidebar(prop : refs){
-    return(
+export default function Sidebar(prop: refs) {
+    return (
         <>
-            <aside className="w-60 -translate-x-48 fixed transition transform ease-in-out duration-1000 z-50 flex h-screen bg-[#1E293B] " ref={prop.sidebarRef}>
+            <aside
+                className="w-60 -translate-x-48 fixed transition transform ease-in-out duration-1000 z-50 flex h-screen bg-[#1E293B] "
+                ref={prop.sidebarRef}>
                 {/*open sidebar button */}
                 <div
-                    className="max-toolbar translate-x-24 scale-x-0 w-full -right-6 transition transform ease-in duration-300 flex items-center justify-between border-4 border-white dark:border-[#0F172A] bg-[#1E293B]  absolute top-2 rounded-full h-12" ref={prop.maxToolbarRef}>
+                    className="max-toolbar translate-x-24 scale-x-0 w-full -right-6 transition transform ease-in duration-300 flex items-center justify-between border-4 border-white dark:border-[#0F172A] bg-[#1E293B]  absolute top-2 rounded-full h-12"
+                    ref={prop.maxToolbarRef}>
 
                     <div className="flex pl-4 items-center space-x-2 ">
                         <div>
                             <div onClick={prop.setDark}
-                                 className="moon text-white hover:text-blue-500 dark:hover:text-[#38BDF8]" ref={prop.moonRef}>
+                                 className="moon text-white hover:text-blue-500 dark:hover:text-[#38BDF8]"
+                                 ref={prop.moonRef}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      strokeWidth={3} stroke="currentColor" className="w-4 h-4">
                                     <path strokeLinecap="round" strokeLinejoin="round"
@@ -35,7 +39,8 @@ export default function Sidebar(prop : refs){
                                 </svg>
                             </div>
                             <div onClick={prop.setLight}
-                                 className="sun hidden text-white hover:text-blue-500 dark:hover:text-[#38BDF8]" ref={prop.sunRef}>
+                                 className="sun hidden text-white hover:text-blue-500 dark:hover:text-[#38BDF8]"
+                                 ref={prop.sunRef}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
                                     <path strokeWidth="round" strokeLinejoin="round"
@@ -63,7 +68,8 @@ export default function Sidebar(prop : refs){
                     <Image src="/img/heart-attack.png" alt="" width={24} height={24}/>
                 </div>
                 {/*<!-- MAX SIDEBAR*/}
-                <div className="max hidden text-white mt-20 flex-col space-y-2 w-full h-[calc(100vh)]" ref={prop.maxSidebarRef}>
+                <div className="max hidden text-white mt-20 flex-col space-y-2 w-full h-[calc(100vh)]"
+                     ref={prop.maxSidebarRef}>
                     <div
                         className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
                         <Image src="/icon/home.png" width={24} height={24} alt={'home'}/>
@@ -74,7 +80,7 @@ export default function Sidebar(prop : refs){
                     <Link href={"/admin/course"}>
                         <div
                             className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
-                            <Image src="/icon/course.png" width={24} height={24}  alt={'course'}/>
+                            <Image src="/icon/course.png" width={24} height={24} alt={'course'}/>
                             <button className="font-[600]">
                                 Course
                             </button>
@@ -82,7 +88,7 @@ export default function Sidebar(prop : refs){
                     </Link>
                     <div
                         className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
-                        <Image src="/icon/user.png" width={24} height={24}  alt={'user'}/>
+                        <Image src="/icon/user.png" width={24} height={24} alt={'user'}/>
                         <button className="font-[600]">
                             User
                         </button>
@@ -92,17 +98,17 @@ export default function Sidebar(prop : refs){
                 <div className="mini mt-20 flex flex-col space-y-2 w-full h-[calc(100vh)]" ref={prop.miniSidebarRef}>
                     <div
                         className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
-                        <Image src="/icon/home.png" width={24} height={24}  alt={'home'}/>
+                        <Image src="/icon/home.png" width={24} height={24} alt={'home'}/>
                     </div>
                     <Link href={"/admin/course"}>
                         <div
                             className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
-                            <Image src="/icon/course.png" width={24} height={24}  alt={'course'}/>
+                            <Image src="/icon/course.png" width={24} height={24} alt={'course'}/>
                         </div>
                     </Link>
                     <div
                         className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
-                        <Image src="/icon/user.png" width={24} height={24}  alt={'user'}/>
+                        <Image src="/icon/user.png" width={24} height={24} alt={'user'}/>
                     </div>
                 </div>
             </aside>

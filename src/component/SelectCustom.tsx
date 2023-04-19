@@ -9,7 +9,8 @@ interface propData {
     rules?: Array<any>
     allowClear?: boolean;
 }
-export default function SelectCustom(prop:propData) {
+
+export default function SelectCustom(prop: propData) {
     return (
         <>
             <Form.Item

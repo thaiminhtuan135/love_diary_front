@@ -43,7 +43,6 @@ const Course: NextPageWithLayout = () => {
 
         setCourses(newData);
 
-        // console.log('das')
     }, []);
 
     useEffect(() => {
@@ -75,89 +74,90 @@ const Course: NextPageWithLayout = () => {
                         text={"Create course"}/>
                 </div>
                 <div className={'overflow-scroll bg-white w-full'}>
-                <Row gutter={12} className={''}>
+                    <Row gutter={12} className={''}>
 
-                    <Col span={24} className={''}>
-                        <Table
-                            dataSource={courses}
-                            pagination={{
-                                showQuickJumper: true,
-                                defaultPageSize: 10,
-                                showSizeChanger: true,
-                                pageSizeOptions: ['10', '20', '30']
-                            }}
-                            columns={[
-                                {
-                                    dataIndex: "id",
-                                    title: "ID",
-                                    key: "id"
-                                },
-                                {
-                                    dataIndex: "name",
-                                    title: "name",
-                                    key: "name",
-                                },
-                                {
-                                    dataIndex: "time",
-                                    title: "Time",
-                                    key: "time",
-                                },
-                                {
-                                    dataIndex: "introduce",
-                                    title: "Introduce",
-                                    key: "introduce",
-                                },
-                                {
-                                    dataIndex: "content",
-                                    title: "Content",
-                                    key: "content",
-                                },
-                                {
-                                    dataIndex: "price",
-                                    title: "Price",
-                                    key: "price",
-                                },
-                                {
-                                    dataIndex: "amount_students",
-                                    title: "Amount students",
-                                    key: "amount_students",
-                                },
-                                {
-                                    dataIndex: "amount_subject",
-                                    title: "Amount Subject",
-                                    key: "amount_subject",
-                                },
-                                {
-                                    dataIndex: "image",
-                                    title: "Image",
-                                    key: "image",
-                                },
-                                {
-                                    dataIndex: "typeCourse",
-                                    title: "Type Course",
-                                    key: "typeCourse",
-                                },
-                                {
-                                    title: "Actions",
-                                    render: (record) => (
-                                        <>
-                                            <button onClick={() => handleUpdate(record.id)}>Edit</button>
-                                            <Popconfirm
-                                                placement="topRight"
-                                                title={"Are you want delete ? "}
-                                                description={"Delete course"}
-                                                onConfirm={confirm}
-                                                okText="Yes"
-                                                cancelText="No"
-                                            >
-                                                <button>Delete</button>
-                                            </Popconfirm>
-                                        </>
-                                    )
-                                }
-                            ]}/>
-                    </Col>
-                </Row>
+                        <Col span={24} className={''}>
+                            <Table
+                                dataSource={courses}
+                                pagination={{
+                                    showQuickJumper: true,
+                                    defaultPageSize: 10,
+                                    showSizeChanger: true,
+                                    pageSizeOptions: ['10', '20', '30']
+                                }}
+                                columns={[
+                                    {
+                                        dataIndex: "id",
+                                        title: "ID",
+                                        key: "id"
+                                    },
+                                    {
+                                        dataIndex: "name",
+                                        title: "name",
+                                        key: "name",
+                                    },
+                                    {
+                                        dataIndex: "time",
+                                        title: "Time",
+                                        key: "time",
+                                    },
+                                    {
+                                        dataIndex: "introduce",
+                                        title: "Introduce",
+                                        key: "introduce",
+                                    },
+                                    {
+                                        dataIndex: "content",
+                                        title: "Content",
+                                        key: "content",
+                                    },
+                                    {
+                                        dataIndex: "price",
+                                        title: "Price",
+                                        key: "price",
+                                    },
+                                    {
+                                        dataIndex: "amount_students",
+                                        title: "Amount students",
+                                        key: "amount_students",
+                                    },
+                                    {
+                                        dataIndex: "amount_subject",
+                                        title: "Amount Subject",
+                                        key: "amount_subject",
+                                    },
+                                    {
+                                        dataIndex: "image",
+                                        title: "Image",
+                                        key: "image",
+                                    },
+                                    {
+                                        dataIndex: "typeCourse",
+                                        title: "Type Course",
+                                        key: "typeCourse",
+                                    },
+                                    {
+                                        title: "Actions",
+                                        render: (record) => (
+                                            <>
+                                                <button onClick={() => handleUpdate(record.id)}>Edit</button>
+                                                <Popconfirm
+                                                    placement="topRight"
+                                                    title={"Are you want delete ? "}
+                                                    description={"Delete course"}
+                                                    onConfirm={confirm}
+                                                    okText="Yes"
+                                                    cancelText="No"
+                                                >
+                                                    <button>Delete</button>
+                                                </Popconfirm>
+                                            </>
+                                        )
+                                    }
+                                ]}
+                            />
+                        </Col>
+                    </Row>
                 </div>
             </div>
         </>

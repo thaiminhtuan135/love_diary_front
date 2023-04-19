@@ -4,14 +4,14 @@ import React from "react";
 
 interface propData {
     name: string;
-    rules? : Array<any>
-    label : string
-    valuePropName : string
-    maxCount? : number
+    rules?: Array<any>
+    label: string
+    valuePropName: string
+    maxCount?: number
 }
 
-export default function UploadImage(prop:propData) {
-    return(
+export default function UploadImage(prop: propData) {
+    return (
         <>
             <Form.Item
                 label={prop.label} name={prop.name}
