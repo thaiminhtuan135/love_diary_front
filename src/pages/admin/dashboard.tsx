@@ -1,8 +1,6 @@
 import {PropsWithChildren, RefObject, useRef, useState} from "react";
 import axios from "axios";
-import Image from "next/image";
 
-import {Button,DatePicker,message} from "antd";
 import Head from "@/component/Head";
 import Sidebar from "@/component/Sidebar";
 
@@ -92,10 +90,10 @@ function Dashboard(props:PropsWithChildren) {
         }
     }
     // const [date, setDate] = useState(null);
-    // const handleChange = (value:any) => {
+    //  const handleChange = (value:any) => {
     //     console.log(value);
     //     message.success(`Select Date: ${value ? value.format('DD-MM-YYYY') : 'None'}`);
-    //     setDate(value);
+    //    setDate(value);
     // };
 
 
@@ -103,7 +101,7 @@ function Dashboard(props:PropsWithChildren) {
     return (
         <>
             <div className="body bg-white dark:bg-[#0F172A]">
-                <Head forwardedRef={logoRef} title={'LTS_EDU'}/>
+                <Head forwardedRef={logoRef} title={'abc'}/>
                 <Sidebar
                     setDark={setDark}
                     setLight={setLight}
@@ -115,13 +113,13 @@ function Dashboard(props:PropsWithChildren) {
                     maxSidebarRef={maxSidebarRef}
                     miniSidebarRef={miniSidebarRef}/>
                 {/*CONTENT -->*/}
-                <div ref={contentRef} className="content ml-12 transform ease-in-out duration-500 pt-20 px-2 md:px-5 pb-4 ">
-                    <div className="px-5 py-3 text-gray-700 rounded-lg bg-gray-50 dark:bg-[#1E293B]" aria-label="Breadcrumb">
+                <div ref={contentRef} className="relative content ml-12 transform ease-in-out duration-500 pt-20 px-2 pb-4 ">
+                    <div className="px-6 py-3 text-gray-700 rounded-lg bg-gray-50 dark:bg-[#1E293B]" aria-label="Breadcrumb">
                         {props.children}
                         {/*<div>Add Course</div>*/}
                         {/*<button onClick={download}>Download CSV</button>*/}
-                        <a onClick={download} href={url} download={'data.csv'}>click anh di</a>
-                        <Button type={"dashed"} className={'text-black'}>dsd</Button>
+                        {/*<a onClick={download} href={url} download={'data.csv'}>click anh di</a>*/}
+                        {/*<Button type={"dashed"} className={'text-black'}>dsd</Button>*/}
                         {/*<DatePicker onChange={handleChange} />*/}
                     </div>
                 </div>

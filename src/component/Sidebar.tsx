@@ -1,5 +1,7 @@
 import Image from "next/image";
 import {RefObject} from "react";
+import LinkCustom from "@/component/LinkCustom";
+import Link from "next/link";
 
 interface refs {
     setDark: () => void;
@@ -36,7 +38,7 @@ export default function Sidebar(prop : refs){
                                  className="sun hidden text-white hover:text-blue-500 dark:hover:text-[#38BDF8]" ref={prop.sunRef}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                    <path strokeWidth="round" strokeLinejoin="round"
                                           d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
                                 </svg>
                             </div>
@@ -69,13 +71,15 @@ export default function Sidebar(prop : refs){
                             Home
                         </button>
                     </div>
-                    <div
-                        className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
-                        <Image src="/icon/course.png" width={24} height={24}  alt={'course'}/>
-                        <button className="font-[600]">
-                            Course
-                        </button>
-                    </div>
+                    <Link href={"/admin/course"}>
+                        <div
+                            className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+                            <Image src="/icon/course.png" width={24} height={24}  alt={'course'}/>
+                            <button className="font-[600]">
+                                Course
+                            </button>
+                        </div>
+                    </Link>
                     <div
                         className="hover:ml-4 w-full text-white hover:text-purple-500 dark:hover:text-blue-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
                         <Image src="/icon/user.png" width={24} height={24}  alt={'user'}/>
@@ -90,10 +94,12 @@ export default function Sidebar(prop : refs){
                         className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
                         <Image src="/icon/home.png" width={24} height={24}  alt={'home'}/>
                     </div>
-                    <div
-                        className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
-                        <Image src="/icon/course.png" width={24} height={24}  alt={'course'}/>
-                    </div>
+                    <Link href={"/admin/course"}>
+                        <div
+                            className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+                            <Image src="/icon/course.png" width={24} height={24}  alt={'course'}/>
+                        </div>
+                    </Link>
                     <div
                         className="hover:ml-4 justify-end pr-5 text-white hover:text-purple-500 dark:hover:text-blue-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
                         <Image src="/icon/user.png" width={24} height={24}  alt={'user'}/>
