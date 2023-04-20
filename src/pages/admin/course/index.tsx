@@ -1,17 +1,18 @@
 import {NextPageWithLayout} from "@/pages/_app";
-import {ReactElement, useEffect, useState} from "react";
+import React, {ChangeEvent, ReactElement, useEffect, useState} from "react";
 import {faker} from "@faker-js/faker";
-import {Table, message, Space, Input, Card} from "antd";
+import {Table, message, Space, Input, Card, Form} from "antd";
 import LinkCustom from "@/component/LinkCustom";
 import {useRouter} from "next/router";
 import ButtonEdit from "@/component/button/ButtonEdit";
 import ButtonDelete from "@/component/button/ButtonDelete";
 import {SearchOutlined} from "@ant-design/icons";
 import Admin from "@/component/layout/Admin";
+import useAxiosGet from "@/hooks/useApi/useAxiosGet";
 
 type image = String | Blob;
 
-interface Interface {
+interface Course {
     id: number;
     name: String;
     time: Date;
@@ -25,17 +26,19 @@ interface Interface {
 }
 
 const Course: NextPageWithLayout = () => {
-    const [courses, setCourses] = useState<Interface[]>([]);
+    const [form] = Form.useForm();
+    const [courses, setCourses] = useState<Course[]>([]);
 
     const [searchText, setSearchText] = useState("");
     let [filteredData] = useState();
+
 
     useEffect(() => {
         loadData();
     }, []);
 
     const loadData = () => {
-        const newData = [];
+        let newData = [];
 
         for (let i = 0; i < 34; i++) {
             newData.push({
@@ -51,7 +54,13 @@ const Course: NextPageWithLayout = () => {
                 typeCourse: faker.datatype.number(1, 10),
             })
         }
+        newData = newData.map((item) => ({
+            ...item,
+            key: item.id,
+        }));
+
         setCourses(newData);
+
     };
 
     const router = useRouter();
@@ -69,10 +78,6 @@ const Course: NextPageWithLayout = () => {
         message.success('Clicked on Yes.');
     };
 
-    const modifiedData = courses.map((item) => ({
-        ...item,
-        key: item.id,
-    }));
 
     const columns = [
         {
@@ -157,37 +162,43 @@ const Course: NextPageWithLayout = () => {
         }
     ];
 
-    const handleInputSearch = (e: any) => {
+    const handleInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value);
         if (e.target.value === "") {
             loadData();
         }
     }
+
     const globalSearch = () => {
-        filteredData = modifiedData.filter((value) => {
+        filteredData = courses.filter((item) => {
             return (
-                value.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                value.introduce.toLowerCase().includes(searchText.toLowerCase())
+                item.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                item.introduce.toLowerCase().includes(searchText.toLowerCase())
             )
         })
         setCourses(filteredData);
     }
+
     return (
         <>
             <Card title={"List course"} size={"default"}>
                 <div className={'mb-2 flex justify-end items-center'}>
+
                     <input value={searchText}
                            placeholder={"Search"}
                            name={"searchText"}
                            onChange={handleInputSearch}
-                           type={"text"}/>
-                    {/*<button className={'mr-2'} onClick={globalSearch}>search</button>*/}
+                           type={"text"}
+                           className={'border h-9 p-2 text-[16px] rounded-lg mr-2 focus:ring-2 focus:ring-4 focus:outline-none focus:ring-teal-300 from-teal-400 via-teal-500 to-teal-600'}
+                    />
                     <button
-                        className="text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:outline-none focus:ring-[#FF9119]/50 font-medium rounded-lg text-sm px-5 py-2 text-center inline-flex items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 mr-2"
+                        className="text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-2 focus:outline-none focus:ring-[#FF9119]/50  rounded-lg text-sm px-5 py-2 text-center inline-flex items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 mr-2"
                         onClick={globalSearch}>
                         <SearchOutlined/>
                         <p className={'ml-2'}>Search</p>
                     </button>
+
+
                     <LinkCustom
                         href={"/admin/course/create"}
                         className={"text-white bg-cyan-800 rounded-lg text-sm text-center px-4 py-2 bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium"}
@@ -195,7 +206,7 @@ const Course: NextPageWithLayout = () => {
                 </div>
                 <div className={'overflow-scroll bg-white w-full'}>
                     <Table
-                        dataSource={filteredData && filteredData.length ? filteredData : modifiedData}
+                        dataSource={filteredData && filteredData.length ? filteredData : courses}
                         pagination={{
                             showQuickJumper: true,
                             defaultPageSize: 10,
