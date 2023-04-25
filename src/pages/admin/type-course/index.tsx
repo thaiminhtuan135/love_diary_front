@@ -1,5 +1,5 @@
 import {NextPageWithLayout} from "@/pages/_app";
-import {ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import {faker} from "@faker-js/faker";
 import {Card, message, Row, Space, Table} from "antd";
 import LinkCustom from "@/component/LinkCustom";
@@ -7,31 +7,25 @@ import {useRouter} from "next/router";
 import ButtonEdit from "@/component/button/ButtonEdit";
 import ButtonDelete from "@/component/button/ButtonDelete";
 import Admin from "@/component/layout/Admin";
+import useAxiosGet from "@/hooks/useApi/useAxiosGet";
+import Search from "@/hooks/Search";
 
 interface TypeCourse {
     id: number;
     name: string;
+    // course : Array<any>
 }
 
 const TypeCourse: NextPageWithLayout = () => {
 
-    const [typeCourses, setTypeCourses] = useState<TypeCourse[]>([]);
+    const {data,loadData,setData} = useAxiosGet<TypeCourse>('http://localhost:8083/type-course/list')
 
     useEffect(() => {
-        const newData = [];
-        for (let i = 0; i < 50; i++) {
-            newData.push({
-                id: i,
-                name: faker.name.fullName(),
-            })
-        }
-        setTypeCourses(newData);
+        loadData();
     }, []);
+    console.log(data);
 
 
-    useEffect(() => {
-        console.log(typeCourses, 'sda');
-    }, [typeCourses]);
 
     const confirm = (id: number) => {
         message.success('Clicked on Yes.' + id);
@@ -50,11 +44,6 @@ const TypeCourse: NextPageWithLayout = () => {
         console.log(id)
         message.success('Clicked on Yes.');
     };
-
-    const modifiedData = typeCourses.map((item) => ({
-        ...item,
-        key: item.id,
-    }));
 
     const columns = [
         {
@@ -75,7 +64,6 @@ const TypeCourse: NextPageWithLayout = () => {
             render: (record) => (
                 <>
                     <Space>
-                        {/*<button onClick={() => handleUpdate(record.id)}>Edit</button>*/}
                         <ButtonEdit handleUpdate={() => handleUpdate(record.id)}/>
                         <ButtonDelete handleDelete={() => handleDelete(record.id)} description={"Delete type course"} />
 
@@ -84,13 +72,16 @@ const TypeCourse: NextPageWithLayout = () => {
             )
         }
     ]
-
+    const handleSearch = (filteredData: TypeCourse[]) => {
+        setData(filteredData);
+    };
     return (
         <>
             <Card title={"Type course"} size={"default"}>
             {/*<div className={' text-[24px] font-bold w-full'}>Type course</div>*/}
             <div>
                 <div className={'mb-2 flex justify-end items-center'}>
+                    <Search data={data} onSearch={handleSearch} loadData={loadData}/>
                     <LinkCustom
                         href={"/admin/type-course/create"}
                         className={"text-white bg-cyan-800 rounded-lg text-sm text-center px-4 py-2 bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium"}
@@ -99,7 +90,7 @@ const TypeCourse: NextPageWithLayout = () => {
             </div>
             <div className={'overflow-scroll bg-white w-full'}>
                 <Table
-                    dataSource={modifiedData}
+                    dataSource={data}
                     pagination={{
                         showQuickJumper: true,
                         defaultPageSize: 10,

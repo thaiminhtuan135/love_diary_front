@@ -1,7 +1,7 @@
 import {NextPageWithLayout} from "@/pages/_app";
 import React, {ChangeEvent, ReactElement, useEffect, useState} from "react";
 import {faker} from "@faker-js/faker";
-import {Table, message, Space, Input, Card, Form} from "antd";
+import {Table, message, Space, Input, Card, Form, Select} from "antd";
 import LinkCustom from "@/component/LinkCustom";
 import {useRouter} from "next/router";
 import ButtonEdit from "@/component/button/ButtonEdit";
@@ -9,6 +9,7 @@ import ButtonDelete from "@/component/button/ButtonDelete";
 import {SearchOutlined} from "@ant-design/icons";
 import Admin from "@/component/layout/Admin";
 import useAxiosGet from "@/hooks/useApi/useAxiosGet";
+import Search from "@/hooks/Search";
 
 type image = String | Blob;
 
@@ -21,17 +22,15 @@ interface Course {
     price: number;
     amount_students: number;
     amount_subject: number;
-    image: image;
+    // image: image;
     typeCourse: number;
 }
 
 const Course: NextPageWithLayout = () => {
-    const [form] = Form.useForm();
+
     const [courses, setCourses] = useState<Course[]>([]);
 
-    const [searchText, setSearchText] = useState("");
     let [filteredData] = useState();
-
 
     useEffect(() => {
         loadData();
@@ -50,7 +49,7 @@ const Course: NextPageWithLayout = () => {
                 price: faker.datatype.number(10, 1000),
                 amount_students: faker.datatype.number(10, 100),
                 amount_subject: faker.datatype.number(1, 10),
-                image: faker.image.image(),
+                // image: faker.image.image(),
                 typeCourse: faker.datatype.number(1, 10),
             })
         }
@@ -60,7 +59,6 @@ const Course: NextPageWithLayout = () => {
         }));
 
         setCourses(newData);
-
     };
 
     const router = useRouter();
@@ -135,12 +133,12 @@ const Course: NextPageWithLayout = () => {
             align: "center",
             sorter: (a, b) => a.amount_subject - b.amount_subject,
         },
-        {
-            dataIndex: "image",
-            title: "Image",
-            key: "image",
-            align: "center"
-        },
+        // {
+        //     dataIndex: "image",
+        //     title: "Image",
+        //     key: "image",
+        //     align: "center"
+        // },
         {
             dataIndex: "typeCourse",
             title: "Type Course",
@@ -162,46 +160,36 @@ const Course: NextPageWithLayout = () => {
         }
     ];
 
-    const handleInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchText(e.target.value);
-        if (e.target.value === "") {
-            loadData();
-        }
-    }
+    // const handleInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    //     setSearchText(e.target.value);
+    //     if (e.target.value === "") {
+    //         loadData();
+    //     }
+    // }
+    //     //
+    //     // const globalSearch = () => {
+    //     //     filteredData = courses.filter((item) => {
+    //     //         return (
+    //             item.name.toLowerCase().includes(searchText.toLowerCase()) ||
+    //             item.introduce.toLowerCase().includes(searchText.toLowerCase())
+    //         )
+    //     })
+    //     setCourses(filteredData);
+    // }
 
-    const globalSearch = () => {
-        filteredData = courses.filter((item) => {
-            return (
-                item.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                item.introduce.toLowerCase().includes(searchText.toLowerCase())
-            )
-        })
+
+    const handleSearch = (filteredData: Course[]) => {
         setCourses(filteredData);
-    }
+    };
 
     return (
         <>
             <Card title={"List course"} size={"default"}>
                 <div className={'mb-2 flex justify-end items-center'}>
-
-                    <input value={searchText}
-                           placeholder={"Search"}
-                           name={"searchText"}
-                           onChange={handleInputSearch}
-                           type={"text"}
-                           className={'border h-9 p-2 text-[16px] rounded-lg mr-2 focus:ring-2 focus:ring-4 focus:outline-none focus:ring-teal-300 from-teal-400 via-teal-500 to-teal-600'}
-                    />
-                    <button
-                        className="text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-2 focus:outline-none focus:ring-[#FF9119]/50  rounded-lg text-sm px-5 py-2 text-center inline-flex items-center dark:hover:bg-[#FF9119]/80 dark:focus:ring-[#FF9119]/40 mr-2"
-                        onClick={globalSearch}>
-                        <SearchOutlined/>
-                        <p className={'ml-2'}>Search</p>
-                    </button>
-
-
+                    <Search data={courses} onSearch={handleSearch} loadData={loadData}/>
                     <LinkCustom
                         href={"/admin/course/create"}
-                        className={"text-white bg-cyan-800 rounded-lg text-sm text-center px-4 py-2 bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium"}
+                        className={"text-white bg-cyan-800 rounded-lg text-sm text-center px-4 py-[8px] bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium"}
                         text={"Create course"}/>
                 </div>
                 <div className={'overflow-scroll bg-white w-full'}>

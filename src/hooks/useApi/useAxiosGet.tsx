@@ -1,23 +1,29 @@
-import {useState, useEffect, useCallback} from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 import axios from "axios";
 
-export default function useAxiosGet<T>(url : string): T[] {
-    const [data, setData] = useState<T[]>([]);
-
-    const getData = useCallback(
-        async () => {
-            try {
-                const res = await axios.get(url);
-                setData(res.data);
-            } catch (err){
-                console.log(err)
-            }
-        }, [url]);
-
-
-    useEffect(() => {
-        getData();
-    }, [getData]);
-
-    return data;
+interface AxiosGet<T> {
+    data: T[];
+    setData: Dispatch<SetStateAction<T>>;
+    loadData: () => void
 }
+function useAxiosGet<T>(url : string) : AxiosGet<T> {
+    const [data, setData] = useState<T>([]);
+    const loadData = async () => {
+        await axios
+            .get(url)
+            .then((res) => {
+                const modifiedData = res.data.map((item) => ({
+                    ...item,
+                    key: item.id,
+                }));
+                setData(modifiedData)
+            }).catch((err) => console.log(err));
+    }
+    return  {
+        data,
+        setData,
+        loadData,
+    }
+}
+
+export default useAxiosGet;

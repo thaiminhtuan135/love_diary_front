@@ -1,13 +1,15 @@
 import {Form, Select} from "antd";
-import React from "react";
+import React, {CSSProperties} from "react";
 
 interface propData {
     getOption?: JSX.Element;
     name: string;
-    label: string;
+    label?: string;
     placeholder?: string;
     rules?: Array<any>
     allowClear?: boolean;
+    defaultValue?: any;
+    style?: CSSProperties;
 }
 
 export default function SelectCustom(prop: propData) {
@@ -18,8 +20,10 @@ export default function SelectCustom(prop: propData) {
                 label={prop.label}
                 rules={prop.rules}>
                 <Select
+                    defaultValue={prop.defaultValue}
                     placeholder={prop.placeholder}
                     allowClear={!!prop.allowClear}
+                    style={prop.style}
                 >
                     {prop.getOption}
                 </Select>
