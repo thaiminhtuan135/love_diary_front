@@ -10,7 +10,8 @@ import Admin from "@/component/layout/Admin";
 
 interface typeCourse {
     id: number;
-    name: string
+    name: string,
+    courses : Array<any>
 }
 
 function TypeCourseDetail() {

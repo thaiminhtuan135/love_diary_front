@@ -1,6 +1,6 @@
-import React from "react";
+import React , {memo} from "react";
 
-export default function ButtonSubmit() {
+function ButtonSubmit() {
     return (
         <>
             <button type="submit"
@@ -9,3 +9,5 @@ export default function ButtonSubmit() {
         </>
     )
 }
+
+export default memo(ButtonSubmit);

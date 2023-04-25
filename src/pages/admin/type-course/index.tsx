@@ -8,7 +8,7 @@ import ButtonEdit from "@/component/button/ButtonEdit";
 import ButtonDelete from "@/component/button/ButtonDelete";
 import Admin from "@/component/layout/Admin";
 import useAxiosGet from "@/hooks/useApi/useAxiosGet";
-import Search from "@/hooks/Search";
+import Search from "@/component/Search";
 
 interface TypeCourse {
     id: number;

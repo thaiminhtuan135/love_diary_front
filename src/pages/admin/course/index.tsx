@@ -9,7 +9,7 @@ import ButtonDelete from "@/component/button/ButtonDelete";
 import {SearchOutlined} from "@ant-design/icons";
 import Admin from "@/component/layout/Admin";
 import useAxiosGet from "@/hooks/useApi/useAxiosGet";
-import Search from "@/hooks/Search";
+import Search from "@/component/Search";
 
 type image = String | Blob;
 
