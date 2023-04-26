@@ -1,17 +1,17 @@
 import {useRouter} from "next/router";
-import React, {ReactElement, useEffect} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import Link from "next/link";
-import {Breadcrumb, Form} from "antd";
+import {Breadcrumb, Form, message} from "antd";
 import InputCustom from "@/component/InputCustom";
 import ButtonSubmit from "@/component/button/ButtonSubmit";
 import LinkCustom from "@/component/LinkCustom";
-import {faker} from "@faker-js/faker";
 import Admin from "@/component/layout/Admin";
+import axios from "axios";
 
 interface typeCourse {
     id: number;
     name: string,
-    courses : Array<any>
+    courses: Array<any>
 }
 
 function TypeCourseDetail() {
@@ -19,11 +19,17 @@ function TypeCourseDetail() {
     const route = useRouter();
 
     useEffect(() => {
-        form.setFieldsValue({id: 1});
-        form.setFieldsValue({name: 'Hi, man!'});
         const {id} = route.query;
-        console.log(id)
-    }, []);
+        if (!route.isReady) return;
+        axios
+            .get(`http://localhost:8083/admin/type-course/${id}`)
+            .then((res) => {
+                const typeCourse: typeCourse = res.data
+                form.setFieldsValue({id: typeCourse.id});
+                form.setFieldsValue({name: typeCourse.name});
+            }).catch(() => {
+        });
+    }, [route.isReady]);
 
     const formItemLayout = {
         labelCol: {
@@ -37,6 +43,13 @@ function TypeCourseDetail() {
     };
 
     const onFinish = (data: typeCourse) => {
+        axios
+            .put(`http://localhost:8083/admin/type-course/${data.id}/edit`, data)
+            .then((res) => {
+                message.success("Edit successfully");
+                route.push("/admin/type-course")
+            }).catch(() => {
+        });
         console.log(data)
     };
 
@@ -82,14 +95,12 @@ function TypeCourseDetail() {
                     rules={rules.ruleType}
                     type={'text'}
                 />
-                <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                    <div className={'mx-auto text-center'}>
-                        <ButtonSubmit/>
-                        <LinkCustom
-                            href={"/admin/type-course"}
-                            className={"text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"}
-                            text={"Back"}/>
-                    </div>
+                <Form.Item wrapperCol={{offset: 12, span: 24}}>
+                    <ButtonSubmit/>
+                    <LinkCustom
+                        href={"/admin/type-course"}
+                        className={"text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"}
+                        text={"Back"}/>
                 </Form.Item>
             </Form>
         </>

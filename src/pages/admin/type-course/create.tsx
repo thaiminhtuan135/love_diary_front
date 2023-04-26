@@ -6,9 +6,6 @@ import InputCustom from "@/component/InputCustom";
 import ButtonSubmit from "@/component/button/ButtonSubmit";
 import LinkCustom from "@/component/LinkCustom";
 import Admin from "@/component/layout/Admin";
-import axios from "axios";
-import {STATUS} from "@/constant/constant";
-import {useRouter} from "next/router";
 import useAxiosPost from "@/hooks/useApi/useAxiosPost";
 
 interface typeCourse {
@@ -18,9 +15,8 @@ interface typeCourse {
 
 const CreateTypeCourse: NextPageWithLayout = () => {
 
-    const router = useRouter();
     const [form] = Form.useForm();
-    const {postData} = useAxiosPost<typeCourse>('http://localhost:8083/type-course/create',"/admin/type-course","Create successfully","Create failed")
+    const {postData} = useAxiosPost<typeCourse>('http://localhost:8083/admin/type-course/create',"/admin/type-course","Create successfully","Create failed")
     const onFinish = (data: typeCourse) => {
         postData(data);
     };
