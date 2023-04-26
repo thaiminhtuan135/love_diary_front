@@ -23,9 +23,9 @@ type Course = {
     introduce: String;
     content: String;
     price: number;
-    amount_students: number;
+    amount_student: number;
     amount_subject: number;
-    image: image;
+    // image: image;
     typeCourse: number;
 }
 
@@ -90,7 +90,7 @@ const CreateCourse: NextPageWithLayout = () => {
     ]
 
     const suffixSelector = (
-        <Form.Item name="suffix" noStyle>
+        <Form.Item noStyle>
             <Select style={{width: 70}}>
                 <Option value="USD">$</Option>
                 <Option value="VND">VND</Option>
@@ -221,7 +221,7 @@ const CreateCourse: NextPageWithLayout = () => {
                 />
                 {/*Number of student*/}
                 <InputNumberCustom
-                    name={"amount_students"}
+                    name={"amount_student"}
                     label={"Number of student"}
                     className={'w-full'}
                     rules={rules.rulesAmountStudent}
@@ -244,6 +244,8 @@ const CreateCourse: NextPageWithLayout = () => {
                 {/*    valuePropName={'fileList'}*/}
                 {/*    maxCount={1}*/}
                 {/*/>*/}
+
+
                 <Form.Item
                     label={"image"} name={"image"}
                     valuePropName="fileList"
@@ -251,6 +253,9 @@ const CreateCourse: NextPageWithLayout = () => {
                         return event?.fileList;
                     }}
                     rules={rules.ruleImage}
+                    initialValue={[
+                        {uid : '-1', name : 'hinh-anh-ve-tinh-yeu (1).jpg',url : '/img/love-wallpaper-38.jpg'}
+                    ]}
                 >
                     <Upload
                         accept="image/png,image/jpeg"
@@ -267,6 +272,7 @@ const CreateCourse: NextPageWithLayout = () => {
                 <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
                     <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
+
                 {/*type*/}
                 <SelectCustom
                     name={"typeCourse"}

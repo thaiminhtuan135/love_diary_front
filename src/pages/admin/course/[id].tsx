@@ -42,6 +42,7 @@ function CourseDetail() {
         form.setFieldsValue({price: 123});
         form.setFieldsValue({amount_students: 123});
         form.setFieldsValue({amount_subject: 123});
+        // form.setFieldsValue({image: });
         form.setFieldsValue({typeCourse: 2});
         console.log(id)
     }, []);
