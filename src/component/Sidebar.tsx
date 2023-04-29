@@ -72,7 +72,7 @@ export default function Sidebar(prop: refs) {
                 {/*<!-- MAX SIDEBAR*/}
                 <div className="max hidden text-white mt-20 flex-col space-y-2 w-full h-[calc(100vh)]"
                      ref={prop.maxSidebarRef}>
-                    <MaxElement href={"#"} src={"/icon/home.png"} alt={"Home"} text={"Home"}/>
+                    <MaxElement href={"/admin/home"} src={"/icon/home.png"} alt={"Home"} text={"Home"}/>
                     <MaxElement href={"/admin/course"} src={"/icon/course.png"} alt={"course"} text={"Course"}/>
                     <MaxElement href={"/admin/user"} src={"/icon/user.png"} alt={"User"} text={"User"}/>
                     <MaxElement href={"/admin/type-course"} src={"/icon/type_course.png"} alt={"Type course"} text={"Type course"}/>
@@ -80,7 +80,7 @@ export default function Sidebar(prop: refs) {
                 {/*<!-- MINI SIDEBAR*/}
                 <div className="mini mt-20 flex flex-col space-y-2 w-full h-[calc(100vh)]" ref={prop.miniSidebarRef}>
 
-                    <MinElement href={"#"} src={"/icon/home.png"} alt={"Home"}/>
+                    <MinElement href={"/admin/home"} src={"/icon/home.png"} alt={"Home"}/>
                     <MinElement href={"/admin/course"} src={"/icon/course.png"} alt={"course"}/>
                     <MinElement href={"/admin/user"} src={"/icon/user.png"} alt={"user"}/>
                     <MinElement href={"/admin/type-course"} src={"/icon/type_course.png"} alt={"Type course"}/>

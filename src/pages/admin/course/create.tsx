@@ -1,5 +1,5 @@
 import {NextPageWithLayout} from "@/pages/_app";
-import React, {ReactElement, useEffect, useState} from "react";
+import React, {ChangeEvent, ReactElement, useEffect, useState} from "react";
 import {message, Form, Select, Breadcrumb, Upload, Modal} from 'antd';
 import axios from "axios";
 import ButtonSubmit from "@/component/button/ButtonSubmit";
@@ -18,15 +18,15 @@ import Admin from "@/component/layout/Admin";
 type image = String | Blob;
 
 type Course = {
-    name: String;
+    name: string;
     time: Date;
-    introduce: String;
-    content: String;
+    introduce: string;
+    content: string;
     price: number;
     amount_student: number;
     amount_subject: number;
-    // image: image;
-    typeCourse: number;
+    image: image;
+    // typeCourse: number;
 }
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -49,7 +49,6 @@ const CreateCourse: NextPageWithLayout = () => {
     const handleCancel = () => setPreviewOpen(false);
 
     const handlePreview = async (file: UploadFile) => {
-        console.log(file)
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj as RcFile);
         }
@@ -58,17 +57,47 @@ const CreateCourse: NextPageWithLayout = () => {
         setPreviewOpen(true);
         setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
     };
+    const [typeCourse, setTypeCourse] = useState<any>([]);
+    const [typeCourId, setTypeCourId] = useState<number>();
+    const handleChaneTypeCourse = (id: ChangeEvent<HTMLInputElement>) => {
+        setTypeCourId(id);
+    }
+    const getTypeCourse = async () => {
+            await axios
+                .get('http://localhost:8083/admin/type-course/list')
+                .then((res) => {
+                    const modifiedData = res.data.map((item) => ({
+                        ...item,
+                        key: item.id,
+                    }));
+                    setTypeCourse(modifiedData)
+                }).catch((err) => console.log(err));
+    }
     useEffect(() => {
-        console.log('init')
-        form.setFieldsValue({name: 'Hi, man!'});
+        getTypeCourse();
     }, []);
 
     const onFinish = (data: Course) => {
-        // console.log(data)
-        // data.time = new Date(data.time);
-        data.time = dayjs(data.time).format('YYYY-MM-DD');
-        console.log(data)
 
+        data.time = dayjs(data.time).format('YYYY-MM-DD');
+
+        const formData = new FormData();
+        formData.append('name',data.name)
+        formData.append('time',data.time)
+        formData.append('introduce',data.introduce)
+        formData.append('content',data.content)
+        formData.append('price',data.price)
+        formData.append('amount_student',data.amount_student)
+        formData.append('amount_subject',data.amount_subject)
+        formData.append('image',data.image)
+        axios
+            .post(`http://localhost:8083/admin/course/create/type-course/${typeCourId}`,formData )
+            .then((res) => {
+                console.log(res);
+                console.log(res.data)
+
+            }).catch(() => {
+        });
     };
 
     const formItemLayout = {
@@ -82,12 +111,6 @@ const CreateCourse: NextPageWithLayout = () => {
         },
     };
 
-    const typeCourse = [
-        {id: 1, value: "Làm giàu"},
-        {id: 2, value: "Backend"},
-        {id: 3, value: "Frontend"},
-        {id: 4, value: "Fullstack"},
-    ]
 
     const suffixSelector = (
         <Form.Item noStyle>
@@ -101,7 +124,7 @@ const CreateCourse: NextPageWithLayout = () => {
     const getOption = (
         <>
             {typeCourse.map((e) => (
-                <Option key={e.id} value={e.id}>{e.value}</Option>
+                <Option key={e.id} value={e.id}>{e.name}</Option>
             ))}
         </>
     );
@@ -131,26 +154,24 @@ const CreateCourse: NextPageWithLayout = () => {
             {required: true, message: "Please select gender"}
         ],
         ruleImage: [
-            {
-                required: true, message: "Please upload your an image!",
-            },
-            {
-                validator(_, fileList) {
-                    return new Promise((resolve, reject) => {
-                        const file = fileList[0];
-                        const fileType = file.type;
-                        if (!(fileType == "image/png" || fileType == "image/jpeg" || fileType == "image/jpg")) {
-                            reject('Only PNG/JPEG/JPG files are accepted!');
-                        } else {
-                            if (fileList[0].size > 1024 * 1024) {
-                                reject('File size exceeded');
-                            } else {
-                                resolve("Success");
-                            }
-                        }
-                    })
-                }
-            }
+            // {
+            //     validator(_, fileList) {
+            //         return new Promise((resolve, reject) => {
+            //             const file = fileList[0];
+            //             const fileType = file.type;
+            //             if (!(fileType == "image/png" || fileType == "image/jpeg" || fileType == "image/jpg")) {
+            //                 reject('Only PNG/JPEG/JPG files are accepted!');
+            //             }
+            //             else {
+            //                 if (fileList[0].size > 1024 * 1024) {
+            //                     reject('File size exceeded');
+            //                 } else {
+            //                     resolve("Success");
+            //                 }
+            //             }
+            //         })
+            //     }
+            // }
         ],
         rulesTime: [
             {type: 'object' as const, required: true, message: 'Please select time!'}
@@ -188,9 +209,6 @@ const CreateCourse: NextPageWithLayout = () => {
                     type={'text'}
                 />
                 {/*Time*/}
-                {/*<Form.Item name="time" label="Time Study" {...config}>*/}
-                {/*    <DatePicker format="YYYY-MM-DD"/>*/}
-                {/*</Form.Item>*/}
                 <DatetimePicker rules={rules.rulesTime} name={"time"} label={"Time study"} format={"YYYY-MM-DD"}/>
                 {/*Introduce*/}
                 <InputCustom
@@ -237,15 +255,6 @@ const CreateCourse: NextPageWithLayout = () => {
 
                 />
                 {/*Image*/}
-                {/*<UploadImage*/}
-                {/*    name={"image"}*/}
-                {/*    rules={rules.ruleImage}*/}
-                {/*    label={"Image"}*/}
-                {/*    valuePropName={'fileList'}*/}
-                {/*    maxCount={1}*/}
-                {/*/>*/}
-
-
                 <Form.Item
                     label={"image"} name={"image"}
                     valuePropName="fileList"
@@ -253,9 +262,9 @@ const CreateCourse: NextPageWithLayout = () => {
                         return event?.fileList;
                     }}
                     rules={rules.ruleImage}
-                    initialValue={[
-                        {uid : '-1', name : 'hinh-anh-ve-tinh-yeu (1).jpg',url : '/img/love-wallpaper-38.jpg'}
-                    ]}
+                    // initialValue={[
+                    //     {uid : '-1', name : 'hinh-anh-ve-tinh-yeu (1).jpg',url : '/img/love-wallpaper-38.jpg'}
+                    // ]}
                 >
                     <Upload
                         accept="image/png,image/jpeg"
@@ -272,17 +281,15 @@ const CreateCourse: NextPageWithLayout = () => {
                 <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
                     <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
-
                 {/*type*/}
                 <SelectCustom
-                    name={"typeCourse"}
                     label={"Type Course"}
                     placeholder={"Select a option"}
                     rules={rules.rulesTypeCourse}
                     getOption={getOption}
                     allowClear={true}
+                    onchange={handleChaneTypeCourse}
                 />
-
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
                     <div className={'mx-auto text-center'}>
                         <ButtonSubmit/>

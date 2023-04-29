@@ -5,3 +5,8 @@ export const STATUS = {
     "NOT_FOUND": 404,
     "INTERNAL_ERR": 500,
 }
+
+export enum ROLE  {
+    ADMIN = "ADMIN",
+    USER = "USER",
+}

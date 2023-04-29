@@ -1,9 +1,12 @@
 import React from "react";
-import {useForm} from "react-hook-form";
 import axios from "axios";
 import {User} from "@/auth/User";
 import {useRouter} from "next/router";
 import Image from "next/image";
+import {Form, Input} from "antd";
+import ButtonSubmit from "@/component/button/ButtonSubmit";
+import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import {ROLE} from "@/constant/constant";
 
 type LoginFormData = {
     email: string;
@@ -11,24 +14,40 @@ type LoginFormData = {
 }
 
 function Login() {
-    const {responseAfterLogin ,hasToken} = User();
-    const { register, handleSubmit, formState: {errors} } = useForm<LoginFormData>();
+    const {responseAfterLogin, hasToken} = User();
     const router = useRouter();
-    const onSubmit = async (data: LoginFormData) => {
-        await axios
-            .post("http://localhost:8080/api/v1/auth/authenticate", data)
+
+    const onFinish = (data: LoginFormData) => {
+        axios
+            .post("http://localhost:8083/api/v1/auth/authenticate", data)
             .then((res) => {
-                // console.log(res.data)
-                const payload = res.data.token.split(".")[ 1 ];
+                const payload = res.data.token.split(".")[1];
                 const userInfo = JSON.parse(atob(payload));
                 responseAfterLogin(res.data.token, userInfo.username);
-                if (hasToken()) {
-                    router.push("/admin/dashboard")
+                if (userInfo.roles[0].authority === ROLE.ADMIN && hasToken()) {
+                    router.push("/admin/home")
                 }
-                // console.log(userInfo.username);
             }).catch(() => {
         });
     };
+    const [form] = Form.useForm();
+
+    const rules = {
+        email: [
+            {required: true, message: 'Please input email'},
+            {type: 'email', message: "Enter the correct email format"}
+        ],
+        password: [
+            {required: true, message: 'Please input password'},
+            {
+                validator: async (_, password) => {
+                    if (password.length < 8) {
+                        return Promise.reject(new Error("Password at least 8 characters"))
+                    }
+                }
+            }
+        ]
+    }
 
     return (
         <>
@@ -40,7 +59,7 @@ function Login() {
                             <div className="hidden lg:block  bg-cover">
                                 <Image
                                     src="/img/hinh-anh-ve-tinh-yeu (1).jpg"
-                                    alt="" width={500} height={500} />
+                                    alt="" width={500} height={500}/>
                             </div>
                         </div>
                     </div>
@@ -72,42 +91,37 @@ function Login() {
                             <a href="#" className="text-xs text-center text-gray-500 uppercase">or login with email</a>
                             <span className="border-b w-1/5 lg:w-1/4"></span>
                         </div>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="mt-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
-                                <input
-                                    type="text" {...register("email", {
-                                    required: "Email is required",
-                                    pattern: {
-                                        value: /\S+@\S+\.\S+/,
-                                        message: "Entered value does not match email format",
-                                    },
-                                })}
-                                    className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"/>
-                                {errors.email && <p className="text-rose-500">{errors.email.message}</p>}
-                            </div>
-                            <div className="mt-4">
-                                <div className="flex justify-between">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                                    <a href="#" className="text-xs text-gray-500">Forget Password?</a>
+
+                        <Form
+                            form={form}
+                            name="login"
+                            onFinish={onFinish}
+                            initialValues={{remember: true}}
+                            scrollToFirstError
+                            layout={'vertical'}
+
+                        >
+                            <Form.Item
+                                label="Email"
+                                name="email"
+                                rules={rules.email}
+                            >
+                                <Input size={'large'} placeholder="Email" prefix={<UserOutlined/>}/>
+                            </Form.Item>
+                            <Form.Item
+                                label="Password"
+                                name="password"
+                                rules={rules.password}
+                            >
+                                <Input.Password size={'large'} placeholder="Password" prefix={<LockOutlined/>}/>
+                            </Form.Item>
+                            <Form.Item>
+                                <div className={'mx-auto text-center'}>
+                                    <ButtonSubmit/>
                                 </div>
-                                <input
-                                    className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
-                                    type="password" {...register("password", {
-                                    required: "Password is required",
-                                    minLength: {
-                                        value: 8,
-                                        message: "Password must be at least 8 characters long",
-                                    },
-                                })}/>
-                                {errors.password && <p className="text-rose-500">{errors.password.message}</p>}
-                            </div>
-                            <div className="mt-8">
-                                <button
-                                    className="rounded-xl bg-gradient-to-br from-[#6025F5] to-[#FF5555] px-5 py-3 text-base font-medium text-white transition duration-200 hover:shadow-lg hover:shadow-[#6025F5] w-full">Login
-                                </button>
-                            </div>
-                        </form>
+                            </Form.Item>
+                        </Form>
+
                         <div className="mt-4 flex items-center justify-between">
                             <span className="border-b w-1/5 md:w-1/4"></span>
                             <a href="#" className="text-xs text-gray-500 uppercase">or sign up</a>
