@@ -16,9 +16,10 @@ interface typeCourse {
 const CreateTypeCourse: NextPageWithLayout = () => {
 
     const [form] = Form.useForm();
-    const {postData} = useAxiosPost<typeCourse>('http://localhost:8083/admin/type-course/create',"/admin/type-course","Create successfully","Create failed")
+    const {postData} = useAxiosPost<typeCourse>('http://localhost:8083/api/v1/admin/type-course/create',"/admin/type-course","Create successfully","Create failed")
     const onFinish = (data: typeCourse) => {
         postData(data);
+        console.log(data)
     };
     const formItemLayout = {
         labelCol: {

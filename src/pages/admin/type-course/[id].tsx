@@ -22,7 +22,7 @@ function TypeCourseDetail() {
         const {id} = route.query;
         if (!route.isReady) return;
         axios
-            .get(`http://localhost:8083/admin/type-course/${id}`)
+            .get(`http://localhost:8083/api/v1/admin/type-course/${id}`)
             .then((res) => {
                 const typeCourse: typeCourse = res.data
                 form.setFieldsValue({id: typeCourse.id});
@@ -44,7 +44,7 @@ function TypeCourseDetail() {
 
     const onFinish = (data: typeCourse) => {
         axios
-            .put(`http://localhost:8083/admin/type-course/${data.id}/edit`, data)
+            .put(`http://localhost:8083/api/v1/admin/type-course/${data.id}/edit`, data)
             .then((res) => {
                 message.success("Edit successfully");
                 route.push("/admin/type-course")

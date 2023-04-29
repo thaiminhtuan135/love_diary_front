@@ -13,10 +13,8 @@ function useAxiosPost<T>(url: string, redirect: string, msgSuccess: string,msgEr
         await axios
             .post(url, data)
             .then((res) => {
-                if (res.status === STATUS.OK) {
                     message.success(msgSuccess);
                     router.push(redirect)
-                }
             }).catch(() => message.error(msgError));
     }
     return {

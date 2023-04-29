@@ -18,7 +18,7 @@ interface TypeCourse {
 
 const TypeCourse: NextPageWithLayout = () => {
     const router = useRouter();
-    const {data, loadData, setData} = useAxiosGet<TypeCourse>('http://localhost:8083/admin/type-course/list')
+    const {data, loadData, setData} = useAxiosGet<TypeCourse>('http://localhost:8083/api/v1/admin/type-course/list')
     const [loading, setLoading] = useState(true);
     const scroll: { x?: number | string; y?: number | string; } = {};
     scroll.y = 800;

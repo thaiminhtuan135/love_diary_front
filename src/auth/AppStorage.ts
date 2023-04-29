@@ -1,38 +1,9 @@
-
-//
-// class AppStorage {
-//     storeToken(token) {
-//         localStorage.setItem("token", token);
-//     }
-//
-//     storeUser(user) {
-//         localStorage.setItem("user", user);
-//     }
-//
-//     store(token, user) {
-//         this.storeToken(token);
-//         this.storeUser(user);
-//     }
-//
-//     clear() {
-//         localStorage.removeItem("token");
-//         localStorage.removeItem("user");
-//     }
-//
-//     getToken() {
-//         localStorage.getItem("token");
-//     }
-//
-//     getUser() {
-//         localStorage.getItem("user");
-//     }
-// }
-
-// function storeToken(token: string) {
-//     localStorage.setItem("token", token);
-//
-// }
-    const storeToken = (token: string) => localStorage.setItem("token", token);
+ const storeToken = (token: string) => {
+        localStorage.setItem("token", token)
+        setTimeout(function (){
+          localStorage.removeItem('token')
+        },1000 * 60 * 24)
+    };
     const storeUser = (user: string) => localStorage.setItem("user", user);
 
     const store = (token: string, user: string) => {
@@ -44,7 +15,8 @@
         localStorage.removeItem("user");
     }
     const getToken = () => {
-        localStorage.getItem("token");
+        return localStorage.getItem("token");
+        // localStorage.getItem("token");
     }
     const getUser = () => {
         localStorage.getItem("user");
