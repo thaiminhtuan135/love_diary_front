@@ -1,7 +1,5 @@
 import {DatePicker, Form} from "antd";
 import React from "react";
-import dayjs from 'dayjs'
-import locale from 'antd/locale/zh_CN';
 
 interface propData {
     rules: Array<any>;

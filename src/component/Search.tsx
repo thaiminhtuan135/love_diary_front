@@ -20,7 +20,7 @@ export default function Search<T>(prop: SearchProps<T>) {
     const globalSearch = () => {
         if (searchText) {
             const filteredData = prop.data.filter(
-                (item) => Object.values(item)
+                (item: any) => Object.values(item)
                     .some(
                         (value) => value && value.toString().toLowerCase().includes(searchText.toLowerCase())
                     )

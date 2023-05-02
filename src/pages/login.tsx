@@ -32,7 +32,7 @@ function Login() {
     };
     const [form] = Form.useForm();
 
-    const rules = {
+    const rules : any= {
         email: [
             {required: true, message: 'Please input email'},
             {type: 'email', message: "Enter the correct email format"}
@@ -40,7 +40,7 @@ function Login() {
         password: [
             {required: true, message: 'Please input password'},
             {
-                validator: async (_, password) => {
+                validator: async (_: any, password : string) => {
                     if (password.length < 8) {
                         return Promise.reject(new Error("Password at least 8 characters"))
                     }

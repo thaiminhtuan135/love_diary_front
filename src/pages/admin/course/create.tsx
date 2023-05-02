@@ -1,5 +1,5 @@
 import {NextPageWithLayout} from "@/pages/_app";
-import React, {ChangeEvent, ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import {message, Form, Select, Breadcrumb, Upload, Modal} from 'antd';
 import axios from "axios";
 import ButtonSubmit from "@/component/button/ButtonSubmit";
@@ -14,6 +14,8 @@ import {PlusCircleOutlined} from "@ant-design/icons";
 import {RcFile} from "antd/es/upload";
 import {UploadFile} from "antd/es/upload/interface";
 import Admin from "@/component/layout/Admin";
+import Image from "next/image";
+import {useRouter} from "next/router";
 
 type image = String | Blob;
 
@@ -26,7 +28,7 @@ type Course = {
     amount_student: number;
     amount_subject: number;
     image: image;
-    // typeCourse: number;
+    typeCourse_id: number;
 }
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -41,7 +43,7 @@ const CreateCourse: NextPageWithLayout = () => {
 
     const [form] = Form.useForm();
     const {Option} = Select;
-
+    const router = useRouter();
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
@@ -58,44 +60,38 @@ const CreateCourse: NextPageWithLayout = () => {
         setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
     };
     const [typeCourse, setTypeCourse] = useState<any>([]);
-    const [typeCourId, setTypeCourId] = useState<number>();
-    const handleChaneTypeCourse = (id: ChangeEvent<HTMLInputElement>) => {
-        setTypeCourId(id);
-    }
     const getTypeCourse = async () => {
-            await axios
-                .get('http://localhost:8083/admin/type-course/list')
-                .then((res) => {
-                    const modifiedData = res.data.map((item) => ({
-                        ...item,
-                        key: item.id,
-                    }));
-                    setTypeCourse(modifiedData)
-                }).catch((err) => console.log(err));
+        await axios
+            .get('http://localhost:8083/api/v1/admin/type-course/list')
+            .then((res) => {
+                const modifiedData = res.data.map((item: any) => ({
+                    ...item,
+                    key: item.id,
+                }));
+                setTypeCourse(modifiedData)
+            }).catch((err) => console.log(err));
     }
     useEffect(() => {
         getTypeCourse();
     }, []);
-
-    const onFinish = (data: Course) => {
-
+    const onFinish = (data: any) => {
+        console.log(data)
         data.time = dayjs(data.time).format('YYYY-MM-DD');
-
         const formData = new FormData();
-        formData.append('name',data.name)
-        formData.append('time',data.time)
-        formData.append('introduce',data.introduce)
-        formData.append('content',data.content)
-        formData.append('price',data.price)
-        formData.append('amount_student',data.amount_student)
-        formData.append('amount_subject',data.amount_subject)
-        formData.append('image',data.image)
+        formData.append('name', data.name)
+        formData.append('time', data.time)
+        formData.append('introduce', data.introduce)
+        formData.append('content', data.content)
+        formData.append('price', data.price)
+        formData.append('amount_student', data.amount_student)
+        formData.append('amount_subject', data.amount_subject)
+        formData.append('image', data.image)
         axios
-            .post(`http://localhost:8083/admin/course/create/type-course/${typeCourId}`,formData )
+            .post(`http://localhost:8083/api/v1/admin/course/create/type-course/${data.typeCourse_id}`, formData)
             .then((res) => {
-                console.log(res);
                 console.log(res.data)
-
+                message.success("Create course successfully").then(r => console.log(r));
+                router.push("/admin/course");
             }).catch(() => {
         });
     };
@@ -116,14 +112,14 @@ const CreateCourse: NextPageWithLayout = () => {
         <Form.Item noStyle>
             <Select style={{width: 70}}>
                 <Option value="USD">$</Option>
-                <Option value="VND">VND</Option>
+                <Option value="VND">₫</Option>
             </Select>
         </Form.Item>
     );
 
     const getOption = (
         <>
-            {typeCourse.map((e) => (
+            {typeCourse.map((e: any) => (
                 <Option key={e.id} value={e.id}>{e.name}</Option>
             ))}
         </>
@@ -143,7 +139,17 @@ const CreateCourse: NextPageWithLayout = () => {
             {required: true, message: 'Please input price!'}
         ],
         rulesAmountStudent: [
-            {required: true, message: 'Please input number student!'}
+            {required: true, message: 'Please input number student!'},
+            {
+                validator : async (_:any,value : number) => {
+                    if (value > 50) {
+                        return Promise.reject(new Error("The number of students must be less than 50"))
+                    }
+                    if (value < 20 ) {
+                        return Promise.reject(new Error("The number of students must be more than 20"))
+                    }
+                }
+            }
         ],
         rulesAmountSubject: [
             {
@@ -151,7 +157,9 @@ const CreateCourse: NextPageWithLayout = () => {
             }
         ],
         rulesTypeCourse: [
-            {required: true, message: "Please select gender"}
+            {
+                required: true, message: "Please select type course"
+            }
         ],
         ruleImage: [
             // {
@@ -279,16 +287,16 @@ const CreateCourse: NextPageWithLayout = () => {
                     </Upload>
                 </Form.Item>
                 <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                    <Image alt="example" style={{width: '100%'}} width={1000} height={1000} src={previewImage}/>
                 </Modal>
                 {/*type*/}
                 <SelectCustom
+                    name={"typeCourse_id"}
                     label={"Type Course"}
                     placeholder={"Select a option"}
                     rules={rules.rulesTypeCourse}
                     getOption={getOption}
                     allowClear={true}
-                    onchange={handleChaneTypeCourse}
                 />
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
                     <div className={'mx-auto text-center'}>

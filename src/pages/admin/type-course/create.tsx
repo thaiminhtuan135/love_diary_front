@@ -1,6 +1,6 @@
 import {NextPageWithLayout} from "@/pages/_app";
-import React, {ReactElement, useState} from "react";
-import {Breadcrumb, Form, message} from "antd";
+import React, {ReactElement} from "react";
+import {Breadcrumb, Form} from "antd";
 import Link from "next/link";
 import InputCustom from "@/component/InputCustom";
 import ButtonSubmit from "@/component/button/ButtonSubmit";
@@ -12,14 +12,14 @@ interface typeCourse {
     name : string
 }
 
-
 const CreateTypeCourse: NextPageWithLayout = () => {
 
     const [form] = Form.useForm();
-    const {postData} = useAxiosPost<typeCourse>('http://localhost:8083/api/v1/admin/type-course/create',"/admin/type-course","Create successfully","Create failed")
+    const {postData} = useAxiosPost<typeCourse>('http://localhost:8083/api/v1/admin/type-course/create',
+        "/admin/type-course","Create successfully","Create failed")
     const onFinish = (data: typeCourse) => {
         postData(data);
-        console.log(data)
+
     };
     const formItemLayout = {
         labelCol: {

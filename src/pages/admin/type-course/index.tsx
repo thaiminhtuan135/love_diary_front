@@ -1,5 +1,5 @@
 import {NextPageWithLayout} from "@/pages/_app";
-import React, {ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useCallback, useEffect, useState} from "react";
 import {Card, message, Row, Space, Table} from "antd";
 import LinkCustom from "@/component/LinkCustom";
 import {useRouter} from "next/router";
@@ -21,14 +21,14 @@ const TypeCourse: NextPageWithLayout = () => {
     const {data, loadData, setData} = useAxiosGet<TypeCourse>('http://localhost:8083/api/v1/admin/type-course/list')
     const [loading, setLoading] = useState(true);
     const scroll: { x?: number | string; y?: number | string; } = {};
+
     scroll.y = 800;
+
     // scroll.x = '100vw';
     useEffect(() => {
         loadData();
         setLoading(false);
     }, []);
-
-
 
     const handleUpdate = (id: number) => {
         router.push({
@@ -40,14 +40,17 @@ const TypeCourse: NextPageWithLayout = () => {
     }
 
     const handleDelete = async (id: number) => {
-        await axios.delete(`http://localhost:8083/admin/type-course/${id}`)
+        await axios.delete(`http://localhost:8083/api/v1/admin/type-course/${id}`)
             .then((res) => {
                 message.success('Delete successfully');
                 loadData();
             }).catch((err)=> console.log(err));
     };
-
-    const columns = [
+    const handleSearch = (filteredData: TypeCourse[]) => {
+        // @ts-ignore
+        setData(filteredData);
+    };
+    const columns : any= [
         {
             dataIndex: "id",
             title: "ID",
@@ -63,7 +66,7 @@ const TypeCourse: NextPageWithLayout = () => {
         {
             title: "Actions",
             align: "center",
-            render: (record) => (
+            render: (record : TypeCourse) => (
                 <>
                     <Space>
                         <ButtonEdit handleUpdate={() => handleUpdate(record.id)}/>
@@ -74,9 +77,7 @@ const TypeCourse: NextPageWithLayout = () => {
             )
         }
     ]
-    const handleSearch = (filteredData: TypeCourse[]) => {
-        setData(filteredData);
-    };
+
     return (
         <>
             <Card title={"Type course"} size={"default"}>

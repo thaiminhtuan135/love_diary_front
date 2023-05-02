@@ -1,15 +1,14 @@
 import {NextPageWithLayout} from "@/pages/_app";
-import React, {ChangeEvent, ReactElement, useEffect, useState} from "react";
-import {faker} from "@faker-js/faker";
-import {Table, message, Space, Input, Card, Form, Select} from "antd";
+import React, {ReactElement, useEffect, useState} from "react";
+import {Table, Space, Card} from "antd";
 import LinkCustom from "@/component/LinkCustom";
 import {useRouter} from "next/router";
 import ButtonEdit from "@/component/button/ButtonEdit";
 import ButtonDelete from "@/component/button/ButtonDelete";
-import {SearchOutlined} from "@ant-design/icons";
 import Admin from "@/component/layout/Admin";
 import useAxiosGet from "@/hooks/useApi/useAxiosGet";
 import Search from "@/component/Search";
+import useAxiosDelete from "@/hooks/useApi/useAxiosDelete";
 
 type image = String | Blob;
 
@@ -22,44 +21,23 @@ interface Course {
     price: number;
     amount_students: number;
     amount_subject: number;
-    // image: image;
-    typeCourse: number;
+    image: image;
+    typeCourse_Id: number;
 }
 
 const Course: NextPageWithLayout = () => {
+    const {data, loadData, setData} = useAxiosGet<Course>('http://localhost:8083/api/v1/admin/course/list')
 
-    const [courses, setCourses] = useState<Course[]>([]);
+    const scroll: { x?: number | string; y?: number | string; } = {};
+    const [loading, setLoading] = useState(true);
 
-    let [filteredData] = useState();
+    scroll.y = 800;
+
 
     useEffect(() => {
         loadData();
+        setLoading(false);
     }, []);
-
-    const loadData = () => {
-        let newData = [];
-
-        for (let i = 0; i < 34; i++) {
-            newData.push({
-                id: i,
-                name: faker.name.fullName(),
-                time: new Date(),
-                introduce: faker.datatype.string(10),
-                content: faker.datatype.string(20),
-                price: faker.datatype.number(10, 1000),
-                amount_students: faker.datatype.number(10, 100),
-                amount_subject: faker.datatype.number(1, 10),
-                // image: faker.image.image(),
-                typeCourse: faker.datatype.number(1, 10),
-            })
-        }
-        newData = newData.map((item) => ({
-            ...item,
-            key: item.id,
-        }));
-
-        setCourses(newData);
-    };
 
     const router = useRouter();
     const handleUpdate = (id: number) => {
@@ -70,27 +48,26 @@ const Course: NextPageWithLayout = () => {
             }
         })
     }
-
+    const {deleteData} = useAxiosDelete("Delete successfully", "Delete Fail", loadData);
     const handleDelete = (id: number) => {
-        console.log(id)
-        message.success('Clicked on Yes.');
+        deleteData(`http://localhost:8083/api/v1/admin/course/${id}`)
     };
 
 
-    const columns = [
+    const columns: any = [
         {
             dataIndex: "id",
             title: "ID",
             key: "id",
             align: "center",
-            sorter: (a, b) => a.id - b.id,
+            sorter: (a: Course, b: Course) => a.id - b.id,
         },
         {
             dataIndex: "name",
             title: "name",
             key: "name",
             align: "center",
-            sorter: (a, b) => a.name.length - b.name.length,
+            sorter: (a: Course, b: Course) => a.name.length - b.name.length,
         },
         {
             dataIndex: "time",
@@ -103,35 +80,35 @@ const Course: NextPageWithLayout = () => {
             title: "Introduce",
             key: "introduce",
             align: "center",
-            sorter: (a, b) => a.introduce.length - b.introduce.length,
+            sorter: (a: Course, b: Course) => a.introduce.length - b.introduce.length,
         },
         {
             dataIndex: "content",
             title: "Content",
             key: "content",
             align: "center",
-            sorter: (a, b) => a.content.length - b.content.length,
+            sorter: (a: Course, b: Course) => a.content.length - b.content.length,
         },
         {
             dataIndex: "price",
             title: "Price",
             key: "price",
             align: "center",
-            sorter: (a, b) => a.price - b.price,
+            sorter: (a: Course, b: Course) => a.price - b.price,
         },
         {
-            dataIndex: "amount_students",
-            title: "Amount students",
-            key: "amount_students",
+            dataIndex: "amount_student",
+            title: "Amount student",
+            key: "amount_student",
             align: "center",
-            sorter: (a, b) => a.amount_students - b.amount_students,
+            sorter: (a: Course, b: Course) => a.amount_students - b.amount_students,
         },
         {
             dataIndex: "amount_subject",
             title: "Amount Subject",
             key: "amount_subject",
             align: "center",
-            sorter: (a, b) => a.amount_subject - b.amount_subject,
+            sorter: (a: Course, b: Course) => a.amount_subject - b.amount_subject,
         },
         // {
         //     dataIndex: "image",
@@ -140,16 +117,16 @@ const Course: NextPageWithLayout = () => {
         //     align: "center"
         // },
         {
-            dataIndex: "typeCourse",
+            dataIndex: "typeCourse_id",
             title: "Type Course",
-            key: "typeCourse", align: "center",
-            sorter: (a, b) => a.typeCourse - b.typeCourse,
+            key: "typeCourse_id", align: "center",
+            sorter: (a: any, b: any) => a.typeCourse - b.typeCourse,
 
         },
         {
             title: "Actions",
             align: "center",
-            render: (record) => (
+            render: (record: any) => (
                 <>
                     <Space>
                         <ButtonEdit handleUpdate={() => handleUpdate(record.id)}/>
@@ -160,33 +137,15 @@ const Course: NextPageWithLayout = () => {
         }
     ];
 
-    // const handleInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    //     setSearchText(e.target.value);
-    //     if (e.target.value === "") {
-    //         loadData();
-    //     }
-    // }
-    //     //
-    //     // const globalSearch = () => {
-    //     //     filteredData = courses.filter((item) => {
-    //     //         return (
-    //             item.name.toLowerCase().includes(searchText.toLowerCase()) ||
-    //             item.introduce.toLowerCase().includes(searchText.toLowerCase())
-    //         )
-    //     })
-    //     setCourses(filteredData);
-    // }
-
-
     const handleSearch = (filteredData: Course[]) => {
-        setCourses(filteredData);
+        setData(filteredData);
     };
 
     return (
         <>
             <Card title={"List course"} size={"default"}>
                 <div className={'mb-2 flex justify-end items-center'}>
-                    <Search data={courses} onSearch={handleSearch} loadData={loadData}/>
+                    <Search data={data} onSearch={handleSearch} loadData={loadData}/>
                     <LinkCustom
                         href={"/admin/course/create"}
                         className={"text-white bg-cyan-800 rounded-lg text-sm text-center px-4 py-[8px] bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium"}
@@ -194,7 +153,7 @@ const Course: NextPageWithLayout = () => {
                 </div>
                 <div className={'overflow-scroll bg-white w-full'}>
                     <Table
-                        dataSource={filteredData && filteredData.length ? filteredData : courses}
+                        dataSource={data}
                         pagination={{
                             showQuickJumper: true,
                             defaultPageSize: 10,
@@ -203,6 +162,8 @@ const Course: NextPageWithLayout = () => {
                         }}
                         bordered
                         columns={columns}
+                        loading={loading}
+                        scroll={scroll}
                     />
                 </div>
             </Card>

@@ -10,7 +10,7 @@ interface propData {
     allowClear?: boolean;
     defaultValue?: any;
     style?: CSSProperties;
-    onchange? : () => void
+    onchange? : (data : any) => void
 }
 
 export default function SelectCustom(prop: propData) {
