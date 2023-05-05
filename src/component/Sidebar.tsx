@@ -74,7 +74,7 @@ export default function Sidebar(prop: refs) {
                      ref={prop.maxSidebarRef}>
                     <MaxElement href={"/admin/home"} src={"/icon/home.png"} alt={"Home"} text={"Home"}/>
                     <MaxElement href={"/admin/course"} src={"/icon/course.png"} alt={"course"} text={"Course"}/>
-                    <MaxElement href={"/admin/user"} src={"/icon/user.png"} alt={"User"} text={"User"}/>
+                    <MaxElement href={"/admin/student"} src={"/icon/user.png"} alt={"User"} text={"Student"}/>
                     <MaxElement href={"/admin/type-course"} src={"/icon/type_course.png"} alt={"Type course"} text={"Type course"}/>
                 </div>
                 {/*<!-- MINI SIDEBAR*/}
@@ -82,7 +82,7 @@ export default function Sidebar(prop: refs) {
 
                     <MinElement href={"/admin/home"} src={"/icon/home.png"} alt={"Home"}/>
                     <MinElement href={"/admin/course"} src={"/icon/course.png"} alt={"course"}/>
-                    <MinElement href={"/admin/user"} src={"/icon/user.png"} alt={"user"}/>
+                    <MinElement href={"/admin/student"} src={"/icon/user.png"} alt={"Student"}/>
                     <MinElement href={"/admin/type-course"} src={"/icon/type_course.png"} alt={"Type course"}/>
                 </div>
             </aside>

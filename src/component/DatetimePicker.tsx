@@ -6,6 +6,7 @@ interface propData {
     name: string;
     label: string;
     format: string;
+    placeholder?: string;
 }
 
 export default function DatetimePicker(prop: propData) {
@@ -16,7 +17,7 @@ export default function DatetimePicker(prop: propData) {
                 label={prop.label}
                 rules={prop.rules}
             >
-                <DatePicker format={prop.format}/>
+                <DatePicker format={prop.format} placeholder={prop.placeholder}/>
                 {/*YYYY-MM-DD*/}
             </Form.Item>
         </>
