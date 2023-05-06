@@ -73,7 +73,7 @@ function CourseDetail() {
                 console.log(course)
                 form.setFieldsValue({id: course.id});
                 form.setFieldsValue({name: course.name});
-                form.setFieldsValue({time: moment(course.time)});
+                form.setFieldsValue({time: dayjs(course.time)});
                 form.setFieldsValue({introduce: course.introduce});
                 form.setFieldsValue({content: course.content});
                 form.setFieldsValue({price: course.price});
@@ -95,7 +95,6 @@ function CourseDetail() {
     }, [route.isReady]);
 
     const onFinish = (data: any) => {
-        console.log(data)
         data.time = dayjs(data.time).format('YYYY-MM-DD');
         const formData = new FormData();
         formData.append('name', data.name)
@@ -105,7 +104,7 @@ function CourseDetail() {
         formData.append('price', data.price)
         formData.append('amount_student', data.amount_student)
         formData.append('amount_subject', data.amount_subject)
-        formData.append('image', data.image[0].originFileObj)
+        // formData.append('image', data.image[0].originFileObj)
         formData.append('typeCourse_id', data.typeCourse_id)
 
         axios
@@ -115,9 +114,6 @@ function CourseDetail() {
                 route.push("/admin/course")
             }).catch(() => {
         });
-        console.log(data)
-
-
     };
     const formItemLayout = {
         labelCol: {

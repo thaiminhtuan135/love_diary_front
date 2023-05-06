@@ -10,3 +10,16 @@ export enum ROLE  {
     ADMIN = "ADMIN",
     USER = "USER",
 }
+
+export const validateMessages = {
+    required: '${label} is required!',
+    types: {
+        email: '${label} is not a valid email!',
+        number: '${label} is not a valid number!',
+    },
+    number: {
+        range: '${label} must be between ${min} and ${max}',
+    },
+    max: '${label} must be exceeded ${max} characters',
+    min: '${label} must be less than ${max} characters',
+};

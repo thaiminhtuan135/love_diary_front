@@ -39,7 +39,7 @@ function Register() {
             }).catch(() => {
         });
     };
-    const rules = {
+    const rules : any = {
         nickName: [
             {required: true, message: 'Please input nick name'},
         ],
@@ -50,7 +50,7 @@ function Register() {
         password: [
             {required: true, message: 'Please input password'},
             {
-                validator: async (_, password) => {
+                validator: async (_:any, password : string) => {
                     if (password !== undefined) {
                         if (password.length < 8) {
                             return Promise.reject(new Error("Password at least 8 characters"));
@@ -66,7 +66,7 @@ function Register() {
                 message: 'Please confirm your password!',
             },
             ({ getFieldValue }) => ({
-                validator(_, value) {
+                validator(_:any, value : any) {
                     if (getFieldValue('password') === value) {
                         return Promise.resolve();
                     }
@@ -74,7 +74,7 @@ function Register() {
                 },
             }),
             {
-                validator: async (_, password) => {
+                validator: async (_:any, password:any) => {
                     if (password !== undefined) {
                         if (password.length < 8) {
                             return Promise.reject(new Error("Password at least 8 characters"));

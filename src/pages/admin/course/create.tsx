@@ -85,9 +85,19 @@ const CreateCourse: NextPageWithLayout = () => {
         formData.append('price', data.price)
         formData.append('amount_student', data.amount_student)
         formData.append('amount_subject', data.amount_subject)
-        formData.append('image', data.image)
+
+        if (data.image) {
+            formData.append('image', data.image[0].originFileObj);
+        } else {
+            formData.append('image', "");
+        }
+
         axios
-            .post(`http://localhost:8083/api/v1/admin/course/create/type-course/${data.typeCourse_id}`, formData)
+            .post(`http://localhost:8083/api/v1/admin/course/create/type-course/${data.typeCourse_id}`, formData,  {
+                headers : {
+                    "Content-Type": "multipart/form-data",
+                }
+            })
             .then((res) => {
                 console.log(res.data)
                 message.success("Create course successfully").then(r => console.log(r));

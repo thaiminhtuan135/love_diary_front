@@ -35,11 +35,11 @@ const User: NextPageWithLayout = () => {
     }, []);
     const handleUpdate = (id: number) => {
         router.push({
-            pathname: "/admin/user/[id]",
+            pathname: "/admin/student/[id]",
             query: {
                 id: id,
             }
-        })
+        }).then()
     }
     const {deleteData} = useAxiosDelete("Delete successfully", "Delete Fail", loadData);
     const handleDelete = (id: number) => {
