@@ -16,6 +16,7 @@ import LinkCustom from "@/component/LinkCustom";
 import dayjs from "dayjs";
 import axios from "axios";
 import {validateMessages} from "@/constant/constant"
+import {AppStorage} from "@/auth/AppStorage";
 
 type image = String | Blob;
 
@@ -64,6 +65,7 @@ const CreateStudent: NextPageWithLayout = () => {
             sm: {span: 16},
         },
     };
+    const {getToken} = AppStorage();
     const onFinish = (data: any) => {
         data.dob = dayjs(data.dob).format('YYYY-MM-DD');
         const formData = new FormData();
@@ -72,8 +74,12 @@ const CreateStudent: NextPageWithLayout = () => {
         });
 
         axios
-            .post(`http://localhost:8083/api/v1/admin/student/create`, formData
-            )
+            .post(`http://localhost:8083/api/v1/admin/student/create`, formData,{
+                headers : {
+                    Authorization : "Bearer "+getToken(),
+                    "Content-Type": "multipart/form-data",
+                }
+            })
             .then(() => {
                 // console.log(res.data)
                 message.success("Create course successfully").then();

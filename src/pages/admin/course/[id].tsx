@@ -16,6 +16,7 @@ import {RcFile} from "antd/es/upload";
 import {UploadFile} from "antd/es/upload/interface";
 import {PlusCircleOutlined} from "@ant-design/icons";
 import Image from "next/image";
+import {AppStorage} from "@/auth/AppStorage";
 
 type image = String | Blob;
 
@@ -44,6 +45,7 @@ function CourseDetail() {
     const [previewImage, setPreviewImage] = useState("");
     const [previewTitle, setPreviewTitle] = useState("");
     const [urlImage, setUrlImage] = useState<string>("");
+    const {getToken} = AppStorage();
     const handleCancel = () => setPreviewOpen(false);
     const [form] = Form.useForm();
     const {Option} = Select;
@@ -58,6 +60,7 @@ function CourseDetail() {
         setPreviewOpen(true);
         setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
     };
+
     const getTypeCourses = async () => {
         await axios
             .get('http://localhost:8083/api/v1/admin/type-course/list')
@@ -67,7 +70,11 @@ function CourseDetail() {
     }
     const getCourse = async (id : any) => {
         axios
-            .get(`http://localhost:8083/api/v1/admin/course/${id}`)
+            .get(`http://localhost:8083/api/v1/admin/course/${id}`,{
+                headers : {
+                    Authorization : "Bearer "+getToken(),
+                }
+            })
             .then((res) => {
                 const course: Course = res.data
                 console.log(course)
@@ -108,7 +115,11 @@ function CourseDetail() {
         formData.append('typeCourse_id', data.typeCourse_id)
 
         axios
-            .put(`http://localhost:8083/api/v1/admin/course/${data.id}/edit/type-course/${data.typeCourse_id}`, formData)
+            .put(`http://localhost:8083/api/v1/admin/course/${data.id}/edit/type-course/${data.typeCourse_id}`, formData,{
+                headers : {
+                    Authorization : "Bearer "+getToken(),
+                }
+            })
             .then((res) => {
                 message.success("Edit successfully");
                 route.push("/admin/course")

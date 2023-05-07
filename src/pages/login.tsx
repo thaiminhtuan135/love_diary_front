@@ -27,7 +27,9 @@ function Login() {
                 if (userInfo.roles[0].authority === ROLE.ADMIN && hasToken()) {
                     router.push("/admin/home")
                 }
-            }).catch(() => {
+                console.log(res);
+            }).catch((err) => {
+            console.log(err)
         });
     };
     const [form] = Form.useForm();

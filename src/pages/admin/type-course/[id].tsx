@@ -7,6 +7,7 @@ import ButtonSubmit from "@/component/button/ButtonSubmit";
 import LinkCustom from "@/component/LinkCustom";
 import Admin from "@/component/layout/Admin";
 import axios from "axios";
+import {AppStorage} from "@/auth/AppStorage";
 
 interface typeCourse {
     id: number;
@@ -22,7 +23,12 @@ function TypeCourseDetail() {
         const {id} = route.query;
         if (!route.isReady) return;
         axios
-            .get(`http://localhost:8083/api/v1/admin/type-course/${id}`)
+            .get(`http://localhost:8083/api/v1/admin/type-course/${id}`, {
+                    headers: {
+                        Authorization: "Bearer " + getToken(),
+                    }
+                }
+            )
             .then((res) => {
                 const typeCourse: typeCourse = res.data
                 form.setFieldsValue({id: typeCourse.id});
@@ -41,10 +47,14 @@ function TypeCourseDetail() {
             sm: {span: 16},
         },
     };
-
+    const {getToken} = AppStorage();
     const onFinish = (data: typeCourse) => {
         axios
-            .put(`http://localhost:8083/api/v1/admin/type-course/${data.id}/edit`, data)
+            .put(`http://localhost:8083/api/v1/admin/type-course/${data.id}/edit`, data, {
+                headers: {
+                    Authorization: "Bearer " + getToken(),
+                }
+            })
             .then((res) => {
                 message.success("Edit successfully");
                 route.push("/admin/type-course")

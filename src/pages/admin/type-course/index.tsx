@@ -9,6 +9,7 @@ import Admin from "@/component/layout/Admin";
 import useAxiosGet from "@/hooks/useApi/useAxiosGet";
 import Search from "@/component/Search";
 import axios from "axios";
+import {AppStorage} from "@/auth/AppStorage";
 
 interface TypeCourse {
     id: number;
@@ -19,6 +20,7 @@ interface TypeCourse {
 const TypeCourse: NextPageWithLayout = () => {
     const router = useRouter();
     const {data, loadData, setData} = useAxiosGet<TypeCourse>('http://localhost:8083/api/v1/admin/type-course/list')
+    console.log(data)
     const [loading, setLoading] = useState(true);
     const scroll: { x?: number | string; y?: number | string; } = {};
 
@@ -38,9 +40,13 @@ const TypeCourse: NextPageWithLayout = () => {
             }
         })
     }
-
+    const {getToken} = AppStorage();
     const handleDelete = async (id: number) => {
-        await axios.delete(`http://localhost:8083/api/v1/admin/type-course/${id}`)
+        await axios.delete(`http://localhost:8083/api/v1/admin/type-course/${id}`,{
+            headers : {
+                Authorization : "Bearer "+getToken(),
+            }
+        })
             .then((res) => {
                 message.success('Delete successfully');
                 loadData();

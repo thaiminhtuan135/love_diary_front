@@ -15,6 +15,7 @@ import {validateMessages} from "@/constant/constant";
 import {UploadFile} from "antd/es/upload/interface";
 import {RcFile} from "antd/es/upload";
 import dayjs from "dayjs";
+import {AppStorage} from "@/auth/AppStorage";
 
 interface Student {
     id: number;
@@ -53,9 +54,14 @@ function StudentDetail() {
         setPreviewOpen(true);
         setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
     };
+    const {getToken} = AppStorage();
     const getStudent = async (id : any) => {
         axios
-            .get(`http://localhost:8083/api/v1/admin/student/${id}`)
+            .get(`http://localhost:8083/api/v1/admin/student/${id}`,{
+                headers : {
+                    Authorization : "Bearer "+getToken(),
+                }
+            })
             .then((res) => {
                 const student: Student = res.data
                 console.log(student)
@@ -96,7 +102,12 @@ function StudentDetail() {
         });
 
         axios
-            .put(`http://localhost:8083/api/v1/admin/student/${data.id}/edit`, formData)
+            .put(`http://localhost:8083/api/v1/admin/student/${data.id}/edit`, formData,{
+                headers : {
+                    Authorization : "Bearer "+getToken(),
+                    "Content-Type": "multipart/form-data",
+                }
+            })
             .then(() => {
                 message.success("Edit successfully");
                 route.push("/admin/student").then()

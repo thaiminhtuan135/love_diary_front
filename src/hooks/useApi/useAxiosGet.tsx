@@ -1,5 +1,6 @@
 import {Dispatch, SetStateAction, useState} from "react";
 import axios from "axios";
+import {AppStorage} from "@/auth/AppStorage";
 
 interface AxiosGet<T> {
     data: T[];
@@ -8,9 +9,14 @@ interface AxiosGet<T> {
 }
 function useAxiosGet<T>(url : string) : AxiosGet<T> {
     const [data, setData] = useState<T[]>([]);
+    const {getToken} = AppStorage();
     const loadData = async () => {
         await axios
-            .get(url)
+            .get(url,{
+                headers : {
+                    Authorization : "Bearer "+getToken(),
+                }
+            })
             .then((res) => {
                 const modifiedData = res.data.map((item : any) => ({
                     ...item,

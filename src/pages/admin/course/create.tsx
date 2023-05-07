@@ -1,5 +1,5 @@
 import {NextPageWithLayout} from "@/pages/_app";
-import React, {ReactElement, useEffect, useState} from "react";
+import React, {ReactElement, useState} from "react";
 import {message, Form, Select, Breadcrumb, Upload, Modal} from 'antd';
 import axios from "axios";
 import ButtonSubmit from "@/component/button/ButtonSubmit";
@@ -16,6 +16,8 @@ import {UploadFile} from "antd/es/upload/interface";
 import Admin from "@/component/layout/Admin";
 import Image from "next/image";
 import {useRouter} from "next/router";
+import useGetData from "@/hooks/useApi/useGetData";
+import {AppStorage} from "@/auth/AppStorage";
 
 type image = String | Blob;
 
@@ -47,7 +49,7 @@ const CreateCourse: NextPageWithLayout = () => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
-
+    const {getToken} = AppStorage();
     const handleCancel = () => setPreviewOpen(false);
 
     const handlePreview = async (file: UploadFile) => {
@@ -59,23 +61,26 @@ const CreateCourse: NextPageWithLayout = () => {
         setPreviewOpen(true);
         setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
     };
-    const [typeCourse, setTypeCourse] = useState<any>([]);
-    const getTypeCourse = async () => {
-        await axios
-            .get('http://localhost:8083/api/v1/admin/type-course/list')
-            .then((res) => {
-                const modifiedData = res.data.map((item: any) => ({
-                    ...item,
-                    key: item.id,
-                }));
-                setTypeCourse(modifiedData)
-            }).catch((err) => console.log(err));
-    }
-    useEffect(() => {
-        getTypeCourse();
-    }, []);
+    // const [typeCourse, setTypeCourse] = useState<any>([]);
+
+    // const getTypeCourse = async () => {
+    //     await axios
+    //         .get('http://localhost:8083/api/v1/admin/type-course/list')
+    //         .then((res) => {
+    //             const modifiedData = res.data.map((item: any) => ({
+    //                 ...item,
+    //                 key: item.id,
+    //             }));
+    //             setTypeCourse(modifiedData)
+    //         }).catch((err) => console.log(err));
+    // }
+    // useEffect(() => {
+    //     setTypeCourse(getData('http://localhost:8083/api/v1/admin/type-course/list'));
+    // }, []);
+
+    const typeCourse = useGetData('http://localhost:8083/api/v1/admin/type-course/list');
+
     const onFinish = (data: any) => {
-        console.log(data)
         data.time = dayjs(data.time).format('YYYY-MM-DD');
         const formData = new FormData();
         formData.append('name', data.name)
@@ -95,15 +100,14 @@ const CreateCourse: NextPageWithLayout = () => {
         axios
             .post(`http://localhost:8083/api/v1/admin/course/create/type-course/${data.typeCourse_id}`, formData,  {
                 headers : {
+                    Authorization : "Bearer "+getToken(),
                     "Content-Type": "multipart/form-data",
                 }
             })
-            .then((res) => {
-                console.log(res.data)
-                message.success("Create course successfully").then(r => console.log(r));
-                router.push("/admin/course");
-            }).catch(() => {
-        });
+            .then(() => {
+                message.success("Create course successfully").then();
+                router.push("/admin/course").then();
+            }).catch((r) => console.log(r));
     };
 
     const formItemLayout = {
