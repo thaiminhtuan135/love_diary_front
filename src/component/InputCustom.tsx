@@ -22,7 +22,7 @@ export default function InputCustom(prop: propData) {
             case 'text':
                 return <Input allowClear={!!prop.allowClear} placeholder={prop.placeholder}/>;
             case 'textarea':
-                return <Input.TextArea showCount maxLength={prop.maxLength}/>;
+                return <Input.TextArea showCount maxLength={prop.maxLength} placeholder={prop.placeholder}/>;
             default :
                 return <Input placeholder={prop.placeholder}/>;
         }

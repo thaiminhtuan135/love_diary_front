@@ -4,27 +4,29 @@ import Admin from "@/component/layout/Admin";
 import {useRouter} from "next/router";
 import useAxiosGet from "@/hooks/useApi/useAxiosGet";
 import {AppStorage} from "@/auth/AppStorage";
-import TypeCourse from "@/pages/admin/type-course";
 import axios from "axios";
 import {Card, message, Space, Table} from "antd";
+import TypeCourse from "@/pages/admin/type-course";
 import ButtonEdit from "@/component/button/ButtonEdit";
 import ButtonDelete from "@/component/button/ButtonDelete";
+import TypePost from "@/pages/admin/type-post";
 import Search from "@/component/Search";
 import LinkCustom from "@/component/LinkCustom";
 
-interface TypePost {
+interface Topic {
     id: number;
+    content: string;
     name: string;
-    topic : Array<any>
+    type_post_id: number;
+    posts : Array<any>
 }
 
-const TypePost: NextPageWithLayout = () => {
+const Topic: NextPageWithLayout = () => {
     const router = useRouter();
-    const {data, loadData, setData} = useAxiosGet<TypePost>('http://localhost:8083/api/v1/admin/type-post/list')
+    const {data, loadData, setData} = useAxiosGet<TypePost>('http://localhost:8083/api/v1/admin/topic/list')
     const [loading, setLoading] = useState(true);
     const scroll: { x?: number | string; y?: number | string; } = {};
     scroll.y = 800;
-
     // scroll.x = '100vw';
     useEffect(() => {
         loadData();
@@ -33,7 +35,7 @@ const TypePost: NextPageWithLayout = () => {
 
     const handleUpdate = (id: number) => {
         router.push({
-            pathname: "/admin/type-post/[id]",
+            pathname: "/admin/topic/[id]",
             query: {
                 id: id,
             }
@@ -41,7 +43,7 @@ const TypePost: NextPageWithLayout = () => {
     }
     const {getToken} = AppStorage();
     const handleDelete = async (id: number) => {
-        await axios.delete(`http://localhost:8083/api/v1/admin/type-post/${id}`,{
+        await axios.delete(`http://localhost:8083/api/v1/admin/topic/${id}`,{
             headers : {
                 Authorization : "Bearer "+getToken(),
             }
@@ -63,6 +65,12 @@ const TypePost: NextPageWithLayout = () => {
             align: "center",
         },
         {
+            dataIndex: "content",
+            title: "Content",
+            key: "content",
+            align: "center",
+        },
+        {
             dataIndex: "name",
             title: "Name",
             key: "name",
@@ -75,8 +83,7 @@ const TypePost: NextPageWithLayout = () => {
                 <>
                     <Space>
                         <ButtonEdit handleUpdate={() => handleUpdate(record.id)}/>
-                        <ButtonDelete handleDelete={() => handleDelete(record.id)} description={"Delete type course"}/>
-
+                        <ButtonDelete handleDelete={() => handleDelete(record.id)} description={"Delete topic"}/>
                     </Space>
                 </>
             )
@@ -84,14 +91,14 @@ const TypePost: NextPageWithLayout = () => {
     ]
     return(
         <>
-            <Card title={"Type post"} size={"default"}>
+            <Card title={"Topic"} size={"default"}>
                 <div>
                     <div className={'mb-2 flex justify-end items-center'}>
                         <Search data={data} onSearch={handleSearch} loadData={loadData}/>
                         <LinkCustom
-                            href={"/admin/type-post/create"}
+                            href={"/admin/topic/create"}
                             className={"text-white bg-cyan-800 rounded-lg text-sm text-center px-4 py-2 bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium"}
-                            text={"Create type post"}/>
+                            text={"Create topic"}/>
                     </div>
                 </div>
                 <div className={'overflow-scroll bg-white w-full'}>
@@ -115,7 +122,7 @@ const TypePost: NextPageWithLayout = () => {
     )
 };
 
-TypePost.getLayout = function getlayout(page: ReactElement) {
+Topic.getLayout = function getlayout(page: ReactElement) {
     return <Admin>{page}</Admin>
-}
-export default TypePost;
+};
+export default Topic;

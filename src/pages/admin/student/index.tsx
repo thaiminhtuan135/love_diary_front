@@ -121,7 +121,7 @@ const User: NextPageWithLayout = () => {
 
     return (
         <>
-            <Card title={"List course"} size={"default"}>
+            <Card title={"Student"} size={"default"}>
                 <div className={'mb-2 flex justify-end items-center'}>
                     <Search data={data} onSearch={handleSearch} loadData={loadData}/>
                     <LinkCustom
