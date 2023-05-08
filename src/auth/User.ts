@@ -1,8 +1,8 @@
 import {Token} from "@/auth/Token";
 import {AppStorage} from "./AppStorage"
 
-const { store } = AppStorage();
-const { payload } = Token();
+const {store, getToken} = AppStorage();
+const {payload} = Token();
 
 const responseAfterLogin = (token: string, username: string) => {
     if (token) {
@@ -20,7 +20,14 @@ const username = () => {
 
 }
 
+const getUseId = () => {
+    const token: string | null = getToken();
+    // @ts-ignore
+    const userInfo = payload(token);
+    return userInfo.id;
+}
+
 export function User() {
-    return {responseAfterLogin, logIn, username, hasToken}
+    return {responseAfterLogin, logIn, username, hasToken, getUseId}
 }
 
