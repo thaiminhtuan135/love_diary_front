@@ -78,6 +78,7 @@ export default function Sidebar(prop: refs) {
                     <MaxElement href={"/admin/type-course"} src={"/icon/type_course.png"} alt={"Type course"} text={"Type course"}/>
                     <MaxElement href={"/admin/type-post"} src={"/icon/post-24.png"} alt={"Type post"} text={"Type post"}/>
                     <MaxElement href={"/admin/topic"} src={"/icon/topic.png"} alt={"Topic"} text={"Topic"}/>
+                    <MaxElement href={"/admin/post"} src={"/icon/post.png"} alt={"Post"} text={"Post"}/>
                 </div>
                 {/*<!-- MINI SIDEBAR*/}
                 <div className="mini mt-20 flex flex-col space-y-2 w-full h-[calc(100vh)]" ref={prop.miniSidebarRef}>
@@ -88,6 +89,7 @@ export default function Sidebar(prop: refs) {
                     <MinElement href={"/admin/type-course"} src={"/icon/type_course.png"} alt={"Type course"}/>
                     <MinElement href={"/admin/type-post"} src={"/icon/post-24.png"} alt={"Type post"}/>
                     <MinElement href={"/admin/topic"} src={"/icon/topic.png"} alt={"Topic"}/>
+                    <MinElement href={"/admin/post"} src={"/icon/post.png"} alt={"Post"}/>
                 </div>
             </aside>
         </>
