@@ -20,9 +20,9 @@ export default function InputCustom(prop: propData) {
     const getInputElement = () => {
         switch (prop.type) {
             case 'text':
-                return <Input allowClear={!!prop.allowClear} placeholder={prop.placeholder}/>;
+                return <Input allowClear={!!prop.allowClear} placeholder={prop.placeholder} className={prop.className}/>;
             case 'textarea':
-                return <Input.TextArea showCount maxLength={prop.maxLength} placeholder={prop.placeholder}/>;
+                return <Input.TextArea showCount maxLength={prop.maxLength} placeholder={prop.placeholder} className={prop.className}/>;
             default :
                 return <Input placeholder={prop.placeholder}/>;
         }
@@ -34,7 +34,6 @@ export default function InputCustom(prop: propData) {
                 name={prop.name}
                 label={prop.label}
                 rules={prop.rules}
-                className={prop.className}
             >
                 {getInputElement()}
             </Form.Item>
