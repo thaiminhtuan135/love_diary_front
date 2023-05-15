@@ -83,6 +83,7 @@ function CreatePost(prop: propData) {
     const showModalModePost = () => {
         setModalOpenPost(false);
         setModalModeOpen(true);
+        setInput("");
     };
     const handleCancelModalModePost = () => {
         setModalModeOpen(false);
@@ -96,6 +97,7 @@ function CreatePost(prop: propData) {
     const showModalOptionPost = () => {
         setModalOpenPost(false);
         setModalOptionOpen(true);
+        setInput("");
     };
     const handleCancelModalOptionPost = () => {
         setModalOptionOpen(false);
