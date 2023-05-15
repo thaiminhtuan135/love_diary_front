@@ -2,7 +2,7 @@
         localStorage.setItem("token", token)
         setTimeout(function (){
           localStorage.removeItem('token')
-        },1000 * 60 * 24)
+        },1000 * 60 * 60)
     };
     const storeUser = (user: string) => localStorage.setItem("user", user);
 

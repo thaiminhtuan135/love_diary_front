@@ -12,7 +12,6 @@ import {MingcuteWorld2Fill} from "@/component/icon/MingcuteWorld2Fill";
 import PhDotsThreeOutlineFill from "@/component/icon/PhDotsThreeOutlineFill";
 import MdiBellRemove from "@/component/icon/MdiBellRemove";
 import {HiddenPost} from "@/component/post/HiddenPost";
-import {SkypeOutlined, UserOutlined} from "@ant-design/icons";
 import Friend from "@/component/icon/Friend";
 import Lock from "@/component/icon/Lock";
 import CreatePost from "@/component/post/Create";
@@ -38,7 +37,6 @@ export const PostContext = createContext<any>(null);
 const ListPost: NextPageWithLayout = () => {
     const router = useRouter();
     const {data, loadData, setData} = useAxiosGet<Post>('http://localhost:8083/api/v1/admin/post/list')
-    const [loading, setLoading] = useState(true);
 
     const modePost = [
         {
@@ -68,7 +66,6 @@ const ListPost: NextPageWithLayout = () => {
     const [hid, setHid] = useState<Array<any>>(arr);
     useEffect(() => {
         loadData();
-        setLoading(false);
     }, []);
 
     const handleHidden = (id: any) => {
@@ -95,7 +92,7 @@ const ListPost: NextPageWithLayout = () => {
     ];
     return (
         <>
-            <Content/>
+            {/*<Content/>*/}
             <Card title={"Post"} size={"default"}>
                 <CreatePost loadData={loadData}/>
                 {/*posts*/}

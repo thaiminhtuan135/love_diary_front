@@ -61,22 +61,6 @@ const CreateCourse: NextPageWithLayout = () => {
         setPreviewOpen(true);
         setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
     };
-    // const [typeCourse, setTypeCourse] = useState<any>([]);
-
-    // const getTypeCourse = async () => {
-    //     await axios
-    //         .get('http://localhost:8083/api/v1/admin/type-course/list')
-    //         .then((res) => {
-    //             const modifiedData = res.data.map((item: any) => ({
-    //                 ...item,
-    //                 key: item.id,
-    //             }));
-    //             setTypeCourse(modifiedData)
-    //         }).catch((err) => console.log(err));
-    // }
-    // useEffect(() => {
-    //     setTypeCourse(getData('http://localhost:8083/api/v1/admin/type-course/list'));
-    // }, []);
 
     const typeCourse = useGetData('http://localhost:8083/api/v1/admin/type-course/list');
 
@@ -312,7 +296,7 @@ const CreateCourse: NextPageWithLayout = () => {
                     getOption={getOption}
                     allowClear={true}
                 />
-                <Form.Item wrapperCol={{offset: 8, span: 16}}>
+                <Form.Item wrapperCol ={{offset: 8, span: 16}}>
                     <div className={'mx-auto text-center'}>
                         <ButtonSubmit/>
                         <LinkCustom

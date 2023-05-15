@@ -1,4 +1,4 @@
-import React, {memo, useState} from "react";
+import React, {memo, useEffect, useState} from "react";
 import {MingcuteWorld2Fill} from "@/component/icon/MingcuteWorld2Fill";
 import Friend from "@/component/icon/Friend";
 import Lock from "@/component/icon/Lock";
@@ -25,6 +25,7 @@ import EmojiPicker, {
     SkinTonePickerLocation
 } from "emoji-picker-react";
 import Smile from "@/component/icon/Smile";
+import UploadImage from "@/component/UploadImage";
 interface propData {
     loadData: () => void
 }
@@ -41,10 +42,15 @@ function CreatePost(prop: propData) {
     const [ModalOpenPost, setModalOpenPost] = useState(false);
     const [ModalModeOpen, setModalModeOpen] = useState(false);
     const [ModalOptionOpen, setModalOptionOpen] = useState(false);
-
     const [input, setInput] = useState<string>("");
-    function onClick(emojiData: EmojiClickData, event: MouseEvent) {
-        setInput(input.concat(emojiData.emoji))
+    const [, forceUpdate] = useState({});
+    useEffect(() => {
+        form.setFieldsValue({content: ""});
+    },[])
+
+    form.setFieldsValue({content : form.getFieldValue("content")+input})
+    const onClick = (emojiData: EmojiClickData) => {
+        setInput(emojiData.emoji)
     }
     const [checked, setChecked] = useState(1);
 
@@ -104,6 +110,7 @@ function CreatePost(prop: propData) {
         setModalOpenPost(true);
     };
     const handleCancelModalPost = () => {
+        setInput("");
         setModalOpenPost(false);
     };
     const onFinish = (data: any) => {
@@ -127,6 +134,15 @@ function CreatePost(prop: propData) {
             .then(() => {
                 message.success("Create post successfully").then();
                 prop.loadData();
+                form.setFieldsValue({
+                    name:"",
+                    shortContent:"",
+                    content:"",
+                    topic_id: undefined,
+                })
+                setInput("");
+                // form.setFieldsValue({shortContent:""})
+                // form.setFieldsValue({content:""})
                 setModalOpenPost(false);
             }).catch((r) => console.log(r));
     };
@@ -153,7 +169,7 @@ function CreatePost(prop: propData) {
             key: '1',
             label: (
                 <>
-                    <input value={input} className={'hidden'} onChange={(event) => setInput(event.target.value)}/>
+                    <input value={input} className={'hidden'} onChange={(e) => setInput(e.target.value)}/>
                     <EmojiPicker
                         onEmojiClick={onClick}
                         autoFocusSearch={false}
@@ -270,11 +286,12 @@ function CreatePost(prop: propData) {
                                 className={'h-[100px]'}
                             />
                         </div>
-                        <div className={'inline-block flex justify-end'}>
+                        <div className={'inline-block hover:cursor-pointer flex justify-end'}>
                             <Dropdown menu={{items}} placement="bottomLeft" trigger={['click']} arrow>
                                     <Smile className={'text-[24px] float-right hover:text-white'}/>
                             </Dropdown>
                         </div>
+                        {/*<UploadImage name={"image"} valuePropName={"fileList"} maxCount={1} />*/}
                         <div className={'border p-2 flex rounded-lg justify-between items-center'}>
                             <p onClick={showModalOptionPost} className={'hover:cursor-pointer'}>Thêm vào bài
                                 viết của bạn</p>
@@ -295,12 +312,23 @@ function CreatePost(prop: propData) {
                                 </div>
                             </div>
                         </div>
-                        <button
-                            className={'w-full mt-2 bg-blue-500 hover:text-white hover:bg-blue-400 rounded-lg p-1'}
-                            key="back"
-                            type={"submit"}>
-                            Post
-                        </button>
+                        <Form.Item shouldUpdate>
+                            {() => (
+                                <button
+                                    className={`w-full mt-2 bg-blue-500 hover:text-white hover:bg-blue-400 rounded-lg p-1
+                                     ${ !form.isFieldsTouched(true) ||
+                                    !!form.getFieldsError().filter(({ errors }) => errors.length).length ? 'cursor-not-allowed' : ''}`}
+                                    key="back"
+                                    type={"submit"}
+                                    disabled={
+                                        !form.isFieldsTouched(true) ||
+                                        !!form.getFieldsError().filter(({ errors }) => errors.length).length
+                                    }
+                                >
+                                    Post
+                                </button>
+                            )}
+                        </Form.Item>
                     </Form>
                 </div>
             </Modal>
@@ -394,11 +422,6 @@ function CreatePost(prop: propData) {
                     </div>
                 </div>
             </Modal>
-            {/*<input value={input} onChange={(event) => setInput(event.target.value)}/>*/}
-            {/*<EmojiPicker*/}
-            {/*    onEmojiClick={onClick}*/}
-            {/*    autoFocusSearch={false}*/}
-            {/*/>*/}
         </>
     )
 }
