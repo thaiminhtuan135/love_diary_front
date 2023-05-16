@@ -25,7 +25,6 @@ import EmojiPicker, {
     SkinTonePickerLocation
 } from "emoji-picker-react";
 import Smile from "@/component/icon/Smile";
-import UploadImage from "@/component/UploadImage";
 interface propData {
     loadData: () => void
 }
@@ -48,8 +47,9 @@ function CreatePost(prop: propData) {
         form.setFieldsValue({content: ""});
     },[])
 
-    form.setFieldsValue({content : form.getFieldValue("content")+input})
+    // form.setFieldsValue({content : form.getFieldValue("content")+input})
     const onClick = (emojiData: EmojiClickData) => {
+        form.setFieldsValue({content : form.getFieldValue("content")+emojiData.emoji})
         setInput(emojiData.emoji)
     }
     const [checked, setChecked] = useState(1);
@@ -166,22 +166,11 @@ function CreatePost(prop: propData) {
             ))}
         </>
     )
-    const items: MenuProps['items'] = [
-        {
-            key: '1',
-            label: (
-                <>
-                    <input value={input} className={'hidden'} onChange={(e) => setInput(e.target.value)}/>
-                    <EmojiPicker
-                        onEmojiClick={onClick}
-                        autoFocusSearch={false}
-                        searchDisabled
-                    />
-                </>
-            ),
-
-        },
-    ];
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+        setInput("");
+    };
     return (
         <>
             <div className={'flex justify-center mb-2'}>
@@ -286,12 +275,29 @@ function CreatePost(prop: propData) {
                                 type={'textarea'}
                                 maxLength={100}
                                 className={'h-[100px]'}
+                                onClick={ () => {
+                                    setIsOpen(false);
+                                    setInput("");
+                                }}
                             />
                         </div>
                         <div className={'inline-block hover:cursor-pointer flex justify-end'}>
-                            <Dropdown menu={{items}} placement="bottomLeft" trigger={['click']} arrow>
-                                    <Smile className={'text-[24px] float-right hover:text-white'}/>
-                            </Dropdown>
+                            <div className="relative transition inline-block dropdown-container top-0">
+                                <Smile onClick={toggleDropdown} className={'text-[24px] float-right hover:text-white'}/>
+                                {isOpen && (
+                                    <div className="absolute mt-1 py-2 w-48 bg-white w-80 rounded-md shadow-lg bottom-full flex left-10">
+
+                                        <input value={input} className={'hidden'} onChange={(e) => setInput(e.target.value)}/>
+                                        <EmojiPicker
+                                            onEmojiClick={onClick}
+                                            autoFocusSearch={false}
+                                            searchDisabled
+                                            width={500}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+
                         </div>
                         {/*<UploadImage name={"image"} valuePropName={"fileList"} maxCount={1} />*/}
                         <div className={'border p-2 flex rounded-lg justify-between items-center'}>

@@ -12,7 +12,7 @@ interface propData {
     allowClear?: boolean;
     type?: type;
     maxLength?: number;
-
+    onClick?: () => void
 }
 
 export default function InputCustom(prop: propData) {
@@ -30,6 +30,7 @@ export default function InputCustom(prop: propData) {
                           showCount maxLength={prop.maxLength}
                           placeholder={prop.placeholder}
                           className={prop.className}
+                          onClick={prop.onClick}
                        />;
             default :
                 return <Input placeholder={prop.placeholder}/>;

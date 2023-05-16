@@ -35,29 +35,7 @@ export const PostContext = createContext<any>(null);
 
 
 const ListPost: NextPageWithLayout = () => {
-    const router = useRouter();
     const {data, loadData, setData} = useAxiosGet<Post>('http://localhost:8083/api/v1/admin/post/list')
-
-    const modePost = [
-        {
-            id: 1,
-            title: "Anyone on facebook",
-            mode: "public",
-            icon: <MingcuteWorld2Fill fontSize={30}/>
-        },
-        {
-            id: 2,
-            title: "Your friends on facebook",
-            mode: "Friend",
-            icon: <Friend fontSize={30}/>
-        },
-        {
-            id: 3,
-            title: "Only me",
-            mode: "Private",
-            icon: <Lock fontSize={30}/>
-        },
-    ]
 
     const arr = [];
     for (const item of data) {
@@ -87,13 +65,16 @@ const ListPost: NextPageWithLayout = () => {
                     </div>
                 </>
             ),
-
         },
     ];
+    // create
+
+
     return (
         <>
             {/*<Content/>*/}
             <Card title={"Post"} size={"default"}>
+                {/*create*/}
                 <CreatePost loadData={loadData}/>
                 {/*posts*/}
                 {data.map((post) => {
