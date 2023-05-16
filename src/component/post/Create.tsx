@@ -362,8 +362,10 @@ function CreatePost(prop: propData) {
                                 <div className={'p-4'}>
                                     <input
                                         type="radio"
+                                        value={a.id}
                                         name={"mode_post"}
                                         checked={checked === a.id}
+                                        onChange={onChangeModePost}
                                     />
                                 </div>
                             </div>
