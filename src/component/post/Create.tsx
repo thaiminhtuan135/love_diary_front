@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from "react";
 import {MingcuteWorld2Fill} from "@/component/icon/MingcuteWorld2Fill";
 import Friend from "@/component/icon/Friend";
 import Lock from "@/component/icon/Lock";
-import {Avatar, Dropdown, Form, MenuProps, message, Modal, Select, Tooltip} from "antd";
+import {Avatar, Dropdown, Form, Input, MenuProps, message, Modal, Select, Tooltip} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 import {Icon} from "@/component/icon/post/Icon";
 import Down from "@/component/icon/Down";
@@ -273,7 +273,7 @@ function CreatePost(prop: propData) {
                                 placeholder={"Content"}
                                 rules={rules.content}
                                 type={'textarea'}
-                                maxLength={100}
+                                maxLength={200}
                                 className={'h-[100px]'}
                                 onClick={ () => {
                                     setIsOpen(false);
@@ -285,8 +285,7 @@ function CreatePost(prop: propData) {
                             <div className="relative transition inline-block dropdown-container top-0">
                                 <Smile onClick={toggleDropdown} className={'text-[24px] float-right hover:text-white'}/>
                                 {isOpen && (
-                                    <div className="absolute mt-1 py-2 w-48 bg-white w-80 rounded-md shadow-lg bottom-full flex left-10">
-
+                                    <div className="absolute w-48 bg-white w-80 rounded-md shadow-lg bottom-full flex left-10">
                                         <input value={input} className={'hidden'} onChange={(e) => setInput(e.target.value)}/>
                                         <EmojiPicker
                                             onEmojiClick={onClick}
