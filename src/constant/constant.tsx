@@ -23,3 +23,32 @@ export const validateMessages = {
     max: '${label} must be exceeded ${max} characters',
     min: '${label} must be less than ${max} characters',
 };
+
+
+export const exploreWorlds = [
+    {
+        id: 'world-1',
+        imgUrl: '/tech3.jpg',
+        title: 'The Hogwarts',
+    },
+    {
+        id: 'world-2',
+        imgUrl: '/tech4.jpg',
+        title: 'The Upside Down',
+    },
+    {
+        id: 'world-3',
+        imgUrl: '/iot.jpg',
+        title: 'Kadirojo Permai',
+    },
+    {
+        id: 'world-4',
+        imgUrl: '/tech5.jpg',
+        title: 'Paradise Island',
+    },
+    {
+        id: 'world-5',
+        imgUrl: '/tech6.jpg',
+        title: 'Hawkins Labs',
+    },
+];
